@@ -1,3 +1,4 @@
+import "./index.css";
 export default function Lab1() {
     return (
         <div id="wd-lab1">

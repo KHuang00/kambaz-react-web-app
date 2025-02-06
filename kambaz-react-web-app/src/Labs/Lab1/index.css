@@ -1,0 +1,43 @@
+/* Style the main container */
+#wd-lists {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    font-size: 18px;
+}
+
+/* General list styles */
+ol, ul {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding-left: 40px;
+}
+
+/* Ensures list items have proper spacing */
+li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+/* Style ordered lists */
+ol {
+    list-style-type: decimal;
+    list-style-position: outside;
+}
+
+/* Style unordered lists */
+ul {
+    list-style-type: disc;
+    list-style-position: outside;
+}
+
+/* Extra spacing for specific lists */
+#wd-pancakes,
+#wd-your-favorite-recipe {
+    padding-left: 45px;
+}
+
+#wd-my-books,
+#wd-your-books {
+    padding-left: 40px;
+}

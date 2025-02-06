@@ -1,0 +1,187 @@
+/* Northeastern Icon Link */
+/*#wd-neu-link {*/
+/*    width: 80px;*/
+/*    height: auto;*/
+/*    border-radius: 8px;*/
+/*    text-decoration: none;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*    padding: 8px;*/
+/*}*/
+
+/*!* Image Icon Styling *!*/
+/*.neu-icon {*/
+/*    width: 40px;*/
+/*    height: 40px;*/
+/*    border-radius: 50%;*/
+/*    object-fit: cover;*/
+/*}*/
+
+/* Sidebar container */
+#wd-kambaz-navigation {
+    width: 110px;
+    background-color: black;
+}
+
+/* Center text/icons */
+.list-group-item {
+    text-align: center;
+}
+
+/* Active Link: White Background, Red Text */
+.active-link {
+    background-color: white !important;
+    color: red !important;
+    font-weight: bold;
+}
+
+/* Inactive Links: Black Background, White Text */
+.inactive-link {
+    background-color: black !important;
+    color: white !important;
+}
+
+/* Red Icons for Inactive Links */
+.inactive-link svg {
+    color: red !important;
+}
+
+/* Special Case: Account Icon (White) */
+.active-link .fa-user-circle,
+.inactive-link .fa-user-circle {
+    color: white !important;
+}
+
+/* Image (Northeastern Logo) */
+.neu-icon {
+    max-width: 80px;
+    height: auto;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Hover Effects */
+.list-group-item:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease-in-out;
+}
+
+/*Kambaz nav*/
+body   {  margin: 0;  padding: 0;  }
+body * {  font-family: Arial, Helvetica, sans-serif;  }
+
+@media (min-width: 768px) {
+    #wd-kambaz .wd-main-content-offset {
+        padding-left: 140px !important;
+    }
+}
+
+/* Dashboard Container */
+.dashboard-container {
+    margin-left: 130px;
+    padding: 20px;
+}
+
+/* Title & Subtitles */
+.dashboard-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: black;
+}
+
+.dashboard-subtitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: black;
+}
+
+/* Course Cards */
+.course-card {
+    width: 250px;
+    height: auto;
+    margin: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Course Card Hover Effect */
+.course-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Course Title Link */
+.course-link {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.course-link:hover {
+    color: #ff0000;
+}
+
+/* Sidebar Active Styling */
+#wd-kambaz-navigation .active-link {
+    background-color: white !important;
+    color: red !important;
+    font-weight: bold;
+}
+
+/* Sidebar Inactive Links */
+#wd-kambaz-navigation .inactive-link {
+    background-color: black !important;
+    color: white !important;
+}
+
+body { margin: 0;  padding: 0; }
+body * { font-family:
+        Arial, Helvetica,
+        sans-serif; }
+@media (min-width: 768px) {
+    #wd-kambaz .wd-main-content-offset {
+        padding-left: 140px !important;
+    }
+}
+
+/*2.4.4 Override the btn-secondary and bg-secondary Bootstrap classes and implement a new border class as show in the style.css */
+.btn-secondary {
+    --bs-btn-color: #000 !important;
+    --bs-btn-bg: #c7cdd1 !important;
+    --bs-btn-border-color: #c7cdd1 !important;
+    --bs-btn-hover-color: #fff !important;
+}
+.bg-secondary {
+    --bs-secondary-rgb: 199, 205, 209;
+}
+.list-group-item {
+    --bs-list-group-border-color: gray;
+}
+.wd-lesson {
+    border-left: 3px solid green !important;
+}
+
+/* index.css */
+
+/* Hide navigation in smaller screens */
+@media (max-width: 768px) {
+    #wd-kambaz-navigation,
+    #wd-courses-navigation {
+        display: none;
+    }
+
+    #wd-kambaz-navigation.show,
+    #wd-courses-navigation.show {
+        display: block;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        z-index: 999;
+        overflow-y: auto;
+    }
+}
+

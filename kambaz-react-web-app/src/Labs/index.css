@@ -1,0 +1,23 @@
+/* Active Tab with Blue Background */
+.custom-nav .nav-link.active {
+    background-color: #007bff; /* Blue background */
+    border: 1px solid #007bff; /* Blue border */
+    color: white; /* White text for active tab */
+    font-weight: bold;
+}
+
+/* Default Inactive Tabs */
+.custom-nav .nav-link {
+    margin: 0 5px;
+    border: 1px solid transparent;
+    color: black;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Hover Effect for Inactive Tabs */
+.custom-nav .nav-link:hover {
+    background-color: #e9ecef; /* Light gray hover background */
+    border-color: #007bff;
+    color: black;
+}

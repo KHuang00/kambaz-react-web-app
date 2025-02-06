@@ -66,3 +66,27 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+
+/* front page items*/
+
+.menu-item-list {
+  list-style-type: none; /* Removes bullets */
+  padding-left: 0; /* Removes extra space */
+  font-size: 18px;
+}
+
+.menu-item-list li {
+  margin-bottom: 8px; /* Adds spacing between items */
+}
+
+.menu-item-list li a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+  display: block; /* Makes each link take full width for better spacing */
+}
+
+.menu-item-list li a:hover {
+  text-decoration: underline;
+}

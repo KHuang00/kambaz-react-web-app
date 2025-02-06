@@ -8,16 +8,28 @@ export default function Labs() {
         <div id="wd-labs">
             <h1>Labs</h1>
             <TOC />
-            <ul>
-                <li>My Name: Katharine Huang <br/> Section:  Spring 2025</li>
-                <li>
-                    <a href="https://github.com/KHuang00/kambaz-react-web-app/tree/main" target="_blank" rel="noopener noreferrer">
-                        GitHub Link
-                    </a>
-                </li>
-            </ul>
+
+            {/*<Routes>*/}
+            {/*    <Route path="/" element={<Navigate to="Lab1" />} />*/}
+            {/*    <Route path="Lab1" element={<Lab1 />} />*/}
+            {/*    <Route path="Lab2" element={<Lab2 />} />*/}
+            {/*    <Route path="Lab3" element={<Lab3 />} />*/}
+            {/*</Routes>*/}
+            {/* Show All Labs When at /Labs */}
             <Routes>
-                <Route path="/" element={<Navigate to="Lab1" />} />
+                {/* Navigate to 'All' when accessing '/Labs' */}
+                <Route path="/" element={<Navigate to="AllLabs" replace />} />
+
+                {/* New Route to Display All Labs */}
+                <Route path="AllLabs" element={
+                    <div>
+                        <Lab1 />
+                        <Lab2 />
+                        <Lab3 />
+                    </div>
+                } />
+
+                {/* Individual Lab Pages */}
                 <Route path="Lab1" element={<Lab1 />} />
                 <Route path="Lab2" element={<Lab2 />} />
                 <Route path="Lab3" element={<Lab3 />} />
