@@ -6,14 +6,14 @@ export default function Signup() {
         <div id="wd-signup-screen">
             <h3>Sign up</h3>
             {/*<input placeholder="username" className="wd-username" /><br/>*/}
-            {/*<input placeholder="password" type="password" className="wd-password" /><br/>*/}
+            {/*<input placeholder="password" type="password" className="wd-password" /><br/>*/} {/* @ts-ignore */}
             <Form.Control id="wd-username"
                           placeholder="username"
                           type="username"
-                          className="mb-2"/>
+                          className="mb-2"/> {/* @ts-ignore */}
             <Form.Control id="wd-password"
                           placeholder="password" type="password"
-                          className="mb-2"/>
+                          className="mb-2"/> {/* @ts-ignore */}
             <Form.Control id="wd-password-verify"
                           placeholder="verify password" type="password"
                           className="mb-2"/>

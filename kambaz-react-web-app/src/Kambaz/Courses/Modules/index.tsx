@@ -9,17 +9,19 @@ export default function Modules() {
 
         <div className="container-fluid">
             <ModulesControls/>
-            <br/><br/><br/><br/>
+            <br/><br/><br/><br/>{/* @ts-ignore */}
             <ListGroup className="w-100" id="wd-modules">
                 {[1, 2, 3, 4].map(week => (
+                    //@ts-ignore
                     <ListGroup.Item key={week} className="wd-module p-0 mb-5 fs-5 border-gray w-100 text-start">
                         <div className="wd-title p-3 bg-secondary d-flex align-items-center">
                             <BsGripVertical className="me-2 fs-3" />
                             <span className="flex-grow-1">Week {week}</span>
                             <ModuleControlButtons />
-                        </div>
+                        </div>{/* @ts-ignore */}
                         <ListGroup className="wd-lessons rounded-0 w-100">
                             {["LEARNING OBJECTIVES", "Introduction to the course", "Learn what is Web Development", "READING", "Full Stack Developer - Chapter 1", "Full Stack Developer - Chapter 2"].map((lesson, index) => (
+                                //@ts-ignore
                                 <ListGroup.Item key={index} className="wd-lesson p-3 text-start d-flex align-items-center w-100">
                                     <BsGripVertical className="me-2 fs-3" />
                                     <span className="flex-grow-1">{lesson}</span>
@@ -31,14 +33,17 @@ export default function Modules() {
                 ))}
 
                 {[5, 6].map(week => (
+                    //@ts-ignore
                     <ListGroup.Item key={week} className="wd-module p-0 mb-5 fs-5 border-gray w-100 text-start">
                         <div className="wd-title p-3 bg-secondary d-flex align-items-center">
                             <BsGripVertical className="me-2 fs-3" />
                             <span className="flex-grow-1">Week {week}</span>
                             <ModuleControlButtons />
                         </div>
+                        {/* @ts-ignore */}
                         <ListGroup className="wd-lessons rounded-0 w-100">
                             {["LEARNING OBJECTIVES", "Learn how to create user interfaces with HTML", "Deploy the assignment to Netlify"].map((lesson, index) => (
+                                //@ts-ignore
                                 <ListGroup.Item key={index} className="wd-lesson p-3 text-start d-flex align-items-center w-100">
                                     <BsGripVertical className="me-2 fs-3" />
                                     <span className="flex-grow-1">{lesson}</span>

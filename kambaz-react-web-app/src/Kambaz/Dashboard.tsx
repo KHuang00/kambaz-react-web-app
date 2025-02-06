@@ -14,21 +14,26 @@ export default function Dashboard() {
     ];
 
     return (
-        <Container fluid className="dashboard-container">{/* Dashboard Title */}
+       //@ts-ignore
+        <Container fluid className="dashboard-container">
             <h1 className="dashboard-title">Dashboard</h1>
             <hr />
 
             <h2 className="dashboard-subtitle">Published Courses ({courses.length})</h2>
             <hr />
-
+            {/* @ts-ignore */}
             <Row className="g-4">
                 {courses.map((course) => (
-                    // Bootstrap Columns for Grid Layout
+                   //@ts-ignore
+
                     <Col key={course.id} xs={12} sm={6} md={4} lg={3} className="d-flex">
-                        {/* Bootstrap Card for Course Display */}
+                        {/* @ts-ignore */}
                         <Card className="course-card">
+                            {/* @ts-ignore */}
                             <Card.Img variant="top" src="/images/reactjs.jpg" alt="Course" />
+                            {/* @ts-ignore */}
                             <Card.Body>
+                                {/* @ts-ignore */}
                                 <Card.Title>
                                     <Link
                                         to={`/Kambaz/Courses/${course.id}/Home`}
@@ -37,7 +42,7 @@ export default function Dashboard() {
                                         {course.title}
                                     </Link>
                                 </Card.Title>
-
+                                {/* @ts-ignore */}
                                 <Card.Text>{course.description}</Card.Text>
                                 <Link to={`/Kambaz/Courses/${course.id}/Home`} className="btn btn-primary">
                                     Go

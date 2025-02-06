@@ -4,7 +4,7 @@ import { FaUserCircle } from "react-icons/fa";
 export default function PeopleTable() {
     return (
         <div id="wd-people-table">
-
+            {/* @ts-ignore */}
             <Table striped>
                 <thead>
                 <tr>

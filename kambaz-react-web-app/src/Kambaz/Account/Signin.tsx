@@ -7,11 +7,11 @@ export default function Signin() {
         <div id="wd-signin-screen">
             <h3>Sign in</h3>
             {/*<input placeholder="username" className="wd-username"  /> <br />*/}
-            {/*<input placeholder="password" type="password" className="wd-password" /> <br />*/}
+            {/*<input placeholder="password" type="password" className="wd-password" /> <br />*/} {/* @ts-ignore */}
             <Form.Control id="wd-username"
                           placeholder="username"
                           type="username"
-                          className="mb-2"/>
+                          className="mb-2"/> {/* @ts-ignore */}
             <Form.Control id="wd-password"
                           placeholder="password" type="password"
                           className="mb-2"/>

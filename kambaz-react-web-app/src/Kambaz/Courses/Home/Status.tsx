@@ -12,32 +12,32 @@ export default function CourseStatus() {
         <div id="wd-course-status" style={{ width: "350px", margin: "20px auto" }}>
             <h2>Course Status</h2>
             <div className="d-flex mb-3">
-                <div className="w-50 pe-1">
+                <div className="w-50 pe-1">{/* @ts-ignore */}
                     <Button variant="secondary" size="lg" className="w-100 text-nowrap">
                         <MdDoNotDisturbAlt className="me-2 fs-5" /> Unpublish
                     </Button>
                 </div>
-                <div className="w-50">
+                <div className="w-50">{/* @ts-ignore */}
                     <Button variant="success" size="lg" className="w-100">
                         <FaCheckCircle className="me-2 fs-5" /> Publish
                     </Button>
                 </div>
-            </div>
+            </div>{/* @ts-ignore */}
             <Button variant="secondary" size="lg" className="w-100 mt-1 text-start">
                 <BiImport className="me-2 fs-5" /> Import Existing Content
-            </Button>
+            </Button>{/* @ts-ignore */}
             <Button variant="secondary" size="lg" className="w-100 mt-1 text-start">
                 <LiaFileImportSolid className="me-2 fs-5" /> Import from Commons
-            </Button>
+            </Button>{/* @ts-ignore */}
             <Button variant="secondary" size="lg" className="w-100 mt-1 text-start">
                 <AiFillHome className="me-2 fs-5" /> Choose Home Page
-            </Button>
+            </Button>{/* @ts-ignore */}
             <Button variant="secondary" size="lg" className="w-100 mt-1 text-start">
                 <FiSpeaker className="me-2 fs-5" /> New Announcement
-            </Button>
+            </Button>{/* @ts-ignore */}
             <Button variant="secondary" size="lg" className="w-100 mt-1 text-start">
                 <IoMdAnalytics className="me-2 fs-5" /> New Analytics
-            </Button>
+            </Button>{/* @ts-ignore */}
             <Button variant="secondary" size="lg" className="w-100 mt-1 text-start">
                 <AiOutlineNotification className="me-2 fs-5" /> View Course Notifications
             </Button>

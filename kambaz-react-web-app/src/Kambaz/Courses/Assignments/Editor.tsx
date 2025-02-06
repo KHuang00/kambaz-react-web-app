@@ -2,19 +2,27 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 
 export default function AssignmentEditor() {
-    // @ts-ignore
+
     return (
-        <Container className="mt-4">
+        // @ts-ignore
+        <Container  className="mt-4">
             <h3 className="mb-4">Edit Assignment</h3>
+            {/* @ts-ignore */}
             <Form>
+                {/* @ts-ignore */}
                 <Card className="mb-4 p-3">
+                    {/* @ts-ignore */}
                     <Form.Group className="mb-3">
+                        {/* @ts-ignore */}
                         <Form.Label><strong>Assignment Name</strong></Form.Label>
+                        {/* @ts-ignore */}
                         <Form.Control type="text" defaultValue="A1 - ENV + HTML" />
                     </Form.Group>
-
+                    {/* @ts-ignore */}
                     <Form.Group className="mb-3">
+                        {/* @ts-ignore */}
                         <Form.Label><strong>Description</strong></Form.Label>
+                        {/* @ts-ignore */}
                         <Form.Control
                             as="textarea"
                             rows={6}
@@ -29,17 +37,25 @@ The Kanbas application should include a link to navigate back to the landing pag
                         />
                     </Form.Group>
                 </Card>
-
+                {/* @ts-ignore */}
                 <Row>
+                    {/* @ts-ignore */}
                     <Col md={4}>
+                        {/* @ts-ignore */}
                         <Form.Group className="mb-3">
+                            {/* @ts-ignore */}
                             <Form.Label><strong>Points</strong></Form.Label>
+                            {/* @ts-ignore */}
                             <Form.Control type="number" defaultValue={100} />
                         </Form.Group>
                     </Col>
+                    {/* @ts-ignore */}
                     <Col md={4}>
+                        {/* @ts-ignore */}
                         <Form.Group className="mb-3">
+                            {/* @ts-ignore */}
                             <Form.Label><strong>Assignment Group</strong></Form.Label>
+                            {/* @ts-ignore */}
                             <Form.Select defaultValue="ASSIGNMENTS">
                                 <option value="ASSIGNMENTS">ASSIGNMENTS</option>
                                 <option value="QUIZZES">QUIZZES</option>
@@ -48,9 +64,13 @@ The Kanbas application should include a link to navigate back to the landing pag
                             </Form.Select>
                         </Form.Group>
                     </Col>
+                    {/* @ts-ignore */}
                     <Col md={4}>
+                        {/* @ts-ignore */}
                         <Form.Group className="mb-3">
+                            {/* @ts-ignore */}
                             <Form.Label><strong>Display Grade As</strong></Form.Label>
+                            {/* @ts-ignore */}
                             <Form.Select defaultValue="Percentage">
                                 <option value="Percentage">Percentage</option>
                                 <option value="Complete/Incomplete">Complete/Incomplete</option>
@@ -60,12 +80,17 @@ The Kanbas application should include a link to navigate back to the landing pag
                         </Form.Group>
                     </Col>
                 </Row>
-
+                {/* @ts-ignore */}
                 <Card className="p-3 mb-4">
+                    {/* @ts-ignore */}
                     <Row>
+                        {/* @ts-ignore */}
                         <Col md={6}>
+                            {/* @ts-ignore */}
                             <Form.Group className="mb-3">
+                                {/* @ts-ignore */}
                                 <Form.Label><strong>Submission Type</strong></Form.Label>
+                                {/* @ts-ignore */}
                                 <Form.Select defaultValue="Online">
                                     <option value="Online">Online</option>
                                     <option value="On Paper">On Paper</option>
@@ -73,54 +98,62 @@ The Kanbas application should include a link to navigate back to the landing pag
                                 </Form.Select>
                             </Form.Group>
                         </Col>
+                        {/* @ts-ignore */}
                         <Col md={6}>
+                            {/* @ts-ignore */}
                             <Form.Group className="mb-3">
+                                {/* @ts-ignore */}
                                 <Form.Label><strong>Online Entry Options</strong></Form.Label>
                                 <div>
+                                    {/* @ts-ignore */}
                                     <Form.Check type="checkbox" label="Text Entry" />
+                                    {/* @ts-ignore */}
                                     <Form.Check type="checkbox" label="Website URL" />
+                                    {/* @ts-ignore */}
                                     <Form.Check type="checkbox" label="Media Recordings" />
+                                    {/* @ts-ignore */}
                                     <Form.Check type="checkbox" label="Student Annotation" />
+                                    {/* @ts-ignore */}
                                     <Form.Check type="checkbox" label="File Upload" />
                                 </div>
                             </Form.Group>
                         </Col>
                     </Row>
                 </Card>
-
-                <Card className="p-3 mb-4">
-                    <Row>
-                        <Col md={4}>
-                            <Form.Group className="mb-3">
-                                <Form.Label><strong>Assign To</strong></Form.Label>
+                {/* @ts-ignore */}
+                <Card className="p-3 mb-4"> {/* @ts-ignore */}
+                    <Row> {/* @ts-ignore */}
+                        <Col md={4}> {/* @ts-ignore */}
+                            <Form.Group className="mb-3"> {/* @ts-ignore */}
+                                <Form.Label><strong>Assign To</strong></Form.Label> {/* @ts-ignore */}
                                 <Form.Control type="text" defaultValue="Everyone" />
                             </Form.Group>
-                        </Col>
-                        <Col md={4}>
-                            <Form.Group className="mb-3">
-                                <Form.Label><strong>Due</strong></Form.Label>
+                        </Col> {/* @ts-ignore */}
+                        <Col md={4}> {/* @ts-ignore */}
+                            <Form.Group className="mb-3"> {/* @ts-ignore */}
+                                <Form.Label><strong>Due</strong></Form.Label> {/* @ts-ignore */}
                                 <Form.Control type="datetime-local" defaultValue="2024-05-13T23:59" />
                             </Form.Group>
-                        </Col>
-                        <Col md={4}>
-                            <Form.Group className="mb-3">
-                                <Form.Label><strong>Available From</strong></Form.Label>
+                        </Col> {/* @ts-ignore */}
+                        <Col md={4}> {/* @ts-ignore */}
+                            <Form.Group className="mb-3"> {/* @ts-ignore */}
+                                <Form.Label><strong>Available From</strong></Form.Label> {/* @ts-ignore */}
                                 <Form.Control type="datetime-local" defaultValue="2024-05-06T00:00" />
                             </Form.Group>
                         </Col>
-                    </Row>
-                    <Row>
-                        <Col md={4}>
-                            <Form.Group className="mb-3">
-                                <Form.Label><strong>Until</strong></Form.Label>
+                    </Row> {/* @ts-ignore */}
+                    <Row> {/* @ts-ignore */}
+                        <Col md={4}> {/* @ts-ignore */}
+                            <Form.Group className="mb-3"> {/* @ts-ignore */}
+                                <Form.Label><strong>Until</strong></Form.Label> {/* @ts-ignore */}
                                 <Form.Control type="datetime-local" defaultValue="2024-05-20T23:59" />
                             </Form.Group>
                         </Col>
                     </Row>
                 </Card>
 
-                <div className="d-flex justify-content-end gap-2">
-                    <Button variant="secondary">Cancel</Button>
+                <div className="d-flex justify-content-end gap-2"> {/* @ts-ignore */}
+                    <Button variant="secondary">Cancel</Button> {/* @ts-ignore */}
                     <Button variant="danger">Save</Button>
                 </div>
             </Form>

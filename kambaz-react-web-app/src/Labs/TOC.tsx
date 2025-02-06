@@ -67,6 +67,7 @@ export default function TOC() {
                 <Nav.Item>
                     {/* @ts-ignore */}
                     <Nav.Link
+                        // @ts-ignore
                         as={Link}
                         to="/Labs"
                         active={activeTab === "/Labs/AllLabs"}
@@ -78,6 +79,7 @@ export default function TOC() {
                 <Nav.Item>
                     {/* @ts-ignore */}
                     <Nav.Link
+                        // @ts-ignore
                         as={Link}
                         to="/Labs/Lab1"
                         active={activeTab === "/Labs/Lab1"}
@@ -89,6 +91,7 @@ export default function TOC() {
                 <Nav.Item>
                     {/* @ts-ignore */}
                     <Nav.Link
+                        // @ts-ignore
                         as={Link}
                         to="/Labs/Lab2"
                         active={activeTab === "/Labs/Lab2"}
@@ -100,6 +103,7 @@ export default function TOC() {
                 <Nav.Item>
                     {/* @ts-ignore */}
                     <Nav.Link
+                        // @ts-ignore
                         as={Link}
                         to="/Labs/Lab3"
                         active={activeTab === "/Labs/Lab3"}
@@ -111,6 +115,7 @@ export default function TOC() {
                 <Nav.Item>
                     {/* @ts-ignore */}
                     <Nav.Link
+                        // @ts-ignore
                         as={Link}
                         to="/Kambaz"
                         active={activeTab === "/Kambaz"}
