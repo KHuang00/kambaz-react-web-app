@@ -3,7 +3,9 @@ import { Form, Button, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export default function Profile() {
+    // @ts-ignore
     return (
+
         <Container id="wd-profile-screen" className="mt-4">
             <h3 className="mb-4">Profile</h3>
             <Form>

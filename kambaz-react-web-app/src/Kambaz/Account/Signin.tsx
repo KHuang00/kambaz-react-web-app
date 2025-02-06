@@ -2,6 +2,7 @@ import {Link } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 
 export default function Signin() {
+    // @ts-ignore
     return (
         <div id="wd-signin-screen">
             <h3>Sign in</h3>

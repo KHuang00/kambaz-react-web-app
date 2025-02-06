@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 export default function Signup() {
+    // @ts-ignore
     return (
         <div id="wd-signup-screen">
             <h3>Sign up</h3>

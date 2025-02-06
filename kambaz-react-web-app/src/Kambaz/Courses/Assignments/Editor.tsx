@@ -2,6 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 
 export default function AssignmentEditor() {
+    // @ts-ignore
     return (
         <Container className="mt-4">
             <h3 className="mb-4">Edit Assignment</h3>
