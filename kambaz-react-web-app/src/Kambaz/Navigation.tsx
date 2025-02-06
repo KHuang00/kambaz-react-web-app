@@ -26,7 +26,7 @@ export default function KambazNavigation() {
                target="_blank"
                className="list-group-item bg-black border-0 text-center">
                 <img
-                    src="/public/images/neu.jpg"
+                    src="/images/neu.jpg"
                     alt="Northeastern"
                     className="neu-icon img-fluid"
                 />
