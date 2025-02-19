@@ -71,6 +71,7 @@ export default function TOC() {
                         as={Link}
                         to="/Labs"
                         active={activeTab === "/Labs/AllLabs"}
+
                     >
                         Labs
                     </Nav.Link>
@@ -82,7 +83,8 @@ export default function TOC() {
                         // @ts-ignore
                         as={Link}
                         to="/Labs/Lab1"
-                        active={activeTab === "/Labs/Lab1"}
+                        // active={activeTab === "/Labs/Lab1"}
+                        active={activeTab.includes("Lab1")}
                     >
                         Lab 1
                     </Nav.Link>
@@ -94,7 +96,8 @@ export default function TOC() {
                         // @ts-ignore
                         as={Link}
                         to="/Labs/Lab2"
-                        active={activeTab === "/Labs/Lab2"}
+                        // active={activeTab === "/Labs/Lab2"}
+                        active={activeTab.includes("Lab2")}
                     >
                         Lab 2
                     </Nav.Link>
@@ -106,7 +109,8 @@ export default function TOC() {
                         // @ts-ignore
                         as={Link}
                         to="/Labs/Lab3"
-                        active={activeTab === "/Labs/Lab3"}
+                        // active={activeTab === "/Labs/Lab3"}
+                        active={activeTab.includes("Lab3")}
                     >
                         Lab 3
                     </Nav.Link>

@@ -1,39 +1,48 @@
-import { useState } from "react";
-import {FaChevronDown, FaChevronUp} from "react-icons/fa";
-import { Navigate, Route, Routes } from "react-router";
+import {useEffect, useState} from "react";
+import { FaChevronDown, FaChevronUp, FaAlignJustify } from "react-icons/fa";
+import { Navigate, Route, Routes, useParams, useLocation } from "react-router";
 import CoursesNavigation from "./Navigations";
 import Modules from "./Modules";
 import Home from "./Home";
 import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
 import PeopleTable from "./people/Table.tsx";
-export default function Courses() {
-    const [showNav, setShowNav] = useState(false);
+import "./index.css";
+import {courses} from "../Database";
 
+export default function Courses() {
+    const { courseId } = useParams();
+    // const params = useParams();
+    // console.log("Extracted Params:", params);
+
+    const { pathname } = useLocation();
+    const [showNav, setShowNav] = useState(false);
+    const [section, setSection] = useState("Home");
+
+    useEffect(() => {
+        const pathParts = pathname.split("/");
+        setSection(pathParts.length > 4 ? pathParts[4] : "Home");
+    }, [pathname]);
+
+    const course = courses.find((course) => course._id === courseId);
+
+     const links =  ["Home", "Modules", "Piazza", "Zoom", "Assignments", "Quizzes", "Grades", "People"];
     return (
         <div id="wd-courses" className="container-fluid">
-            {/*<h2 className="text-danger d-flex align-items-center">*/}
-            {/*    <FaAlignJustify*/}
-            {/*        className="me-4 fs-4 mb-1 d-md-none"*/}
-            {/*        onClick={() => setShowNav(!showNav)}*/}
-            {/*        style={{ cursor: "pointer" }}*/}
-            {/*    />*/}
-            {/*    Course 1234*/}
-            {/*</h2>*/}
-            {/*<hr />*/}
-
             <h2 className="text-danger d-flex align-items-center justify-content-between">
-                <span>Course 1234</span> {/* Course title */}
+                <span>
+                    <FaAlignJustify className="me-3 fs-4 mb-1" />
+                    {/*{courseName} &gt; {section}*/}
+                    {course ? `${course.name} > ${section}` : `Course Not Found`}
+                </span>
                 <span
                     className="fs-4 mb-1 d-md-none"
                     onClick={() => setShowNav((prev) => !prev)}
                     style={{ cursor: "pointer" }}
                 >
-        {showNav ? <FaChevronUp /> : <FaChevronDown />}
-    </span>
+                    {showNav ? <FaChevronUp /> : <FaChevronDown />}
+                </span>
             </h2>
-
-
 
             {showNav && (
                 <div
@@ -48,36 +57,19 @@ export default function Courses() {
                     }}
                 >
                     <ul className="list-unstyled">
-                        <li className="p-2 text-danger" onClick={() => setShowNav(false)}>
-                            Home
-                        </li>
-                        <li className="p-2 text-danger" onClick={() => setShowNav(false)}>
-                            Modules
-                        </li>
-                        <li className="p-2 text-danger" onClick={() => setShowNav(false)}>
-                            Piazza
-                        </li>
-                        <li className="p-2 text-danger" onClick={() => setShowNav(false)}>
-                            Zoom
-                        </li>
-                        <li className="p-2 text-danger" onClick={() => setShowNav(false)}>
-                            Assignments
-                        </li>
-                        <li className="p-2 text-danger" onClick={() => setShowNav(false)}>
-                            Quizzes
-                        </li>
-                        <li className="p-2 text-danger" onClick={() => setShowNav(false)}>
-                            Grades
-                        </li>
-                        <li className="p-2 text-danger" onClick={() => setShowNav(false)}>
-                            People
-                        </li>
+                        {links.map(
+                            (item) => (
+                                <li key={item} className="p-2 text-danger" onClick={() => setShowNav(false)}>
+                                    {item}
+                                </li>
+                            )
+                        )}
                     </ul>
                 </div>
             )}
 
             <div className="row">
-                <div className={`col-md-3 d-none d-md-block`}>
+                <div className="col-md-3 d-none d-md-block">
                     <CoursesNavigation />
                 </div>
 
@@ -89,7 +81,8 @@ export default function Courses() {
                         <Route path="Piazza" element={<h2>Piazza</h2>} />
                         <Route path="Zoom" element={<h2>Zoom</h2>} />
                         <Route path="Assignments" element={<Assignments />} />
-                        <Route path="Assignments/:aid" element={<AssignmentEditor />} />
+                        {/*<Route path="Assignments/:aid" element={<AssignmentEditor />} />*/}
+                        <Route path="Assignments/:assignmentId" element={<AssignmentEditor />} />
                         <Route path="Quizzes" element={<h2>Quizzes</h2>} />
                         <Route path="Exams" element={<h2>Exams</h2>} />
                         <Route path="Projects" element={<h2>Projects</h2>} />
@@ -102,4 +95,6 @@ export default function Courses() {
         </div>
     );
 }
+
+
 
