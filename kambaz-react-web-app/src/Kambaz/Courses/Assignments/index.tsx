@@ -49,10 +49,16 @@ export default function Assignments() {
                                 <div className="border-start border-success ps-3 flex-grow-1">
                                     <div className="d-flex justify-content-between align-items-center">
                                         <div>
-                                            {/* Dynamically generate assignment links with courseId */}
                                             <a href={`#/Kambaz/Courses/${courseId}/Assignments/${item._id}`} className="fw-bold text-decoration-none">
                                                 {item.title}
                                             </a>
+                                            <p className="text-muted mb-0">
+                                                <span className="text-danger fw-bold">{item.detail.module}</span> |
+                                                Available Until: {item.detail.start} |
+                                                Due: {item.detail.due} |
+                                                {item.detail.points}
+                                            </p>
+
                                         </div>
                                         <FaCheckCircle className="text-success ms-2" />
                                     </div>
