@@ -229,8 +229,8 @@
 import { useEffect, useState } from "react";
 import { FaChevronDown, FaChevronUp, FaAlignJustify } from "react-icons/fa";
 import { Navigate, Route, Routes, useParams, useLocation } from "react-router";
-import { useSelector } from "react-redux"; // Import Redux state
-import { enrollments } from "../Database/index.tsx"; // Import only enrollments
+import { useSelector } from "react-redux";
+import { enrollments } from "../Database/index.tsx";
 import CoursesNavigation from "./Navigations";
 import Modules from "./Modules";
 import Home from "./Home";
