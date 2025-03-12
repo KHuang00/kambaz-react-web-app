@@ -302,10 +302,12 @@
 //     );
 // }
 
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Card, Row, Col } from "react-bootstrap";
+import { Card, Row, Col, Button } from "react-bootstrap";
 import * as db from "./Database";
+import { v4 as uuidv4 } from "uuid";
 import "./index.css";
 
 export default function Dashboard() {
@@ -328,23 +330,88 @@ export default function Dashboard() {
 
     console.log("User's Enrolled Courses:", enrolledCourses);
 
+    const [courses, setCourses] = useState(enrolledCourses);
+    { /* @ts-ignore */ }
+    const [newCourse, setNewCourse] = useState({ name: "", description: "" });
+    const [editCourse, setEditCourse] = useState(null);
+
+    { /* @ts-ignore */ }
+    const handleAddCourse = () => {
+        const newAddedCourse = { _id: uuidv4(), ...newCourse };
+        // @ts-ignore
+        setCourses([...courses, newAddedCourse]);
+        setNewCourse({ name: "", description: "" }); // Reset form
+    };
+
+    { /* @ts-ignore */ }
+    const handleDeleteCourse = (id) => {
+        setCourses(courses.filter(course => course._id !== id));
+    };
+
+    { /* @ts-ignore */ }
+    const handleEditCourse = (course) => {
+        setEditCourse(course);
+    };
+
+    const handleSaveCourse = () => {
+        if (editCourse) {
+            { /* @ts-ignore */ }
+            setCourses(courses.map((c) => (c._id === editCourse._id ? editCourse : c)));
+            setEditCourse(null);
+        }
+    };
+
+
     return (
         <div id="wd-dashboard">
             <h1 id="wd-dashboard-title">Dashboard</h1>
             <hr />
-            <h2 id="wd-dashboard-published">Published Courses ({enrolledCourses.length})</h2>
+            <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2>
             <hr />
+
+            <div className="mb-3">
+                <input
+                    type="text"
+                    placeholder="Course Name"
+                    className="form-control mb-2"
+                    value={newCourse.name}
+                    onChange={(e) => setNewCourse({ ...newCourse, name: e.target.value })}
+                />
+                <input
+                    type="text"
+                    placeholder="Course Description"
+                    className="form-control mb-2"
+                    value={newCourse.description}
+                    onChange={(e) => setNewCourse({ ...newCourse, description: e.target.value })}
+                />
+                {/* @ts-ignore*/}
+                <Button variant="success" onClick={handleAddCourse}>
+                    Add Course
+                </Button>
+            </div>
+
             <div id="wd-dashboard-courses">
                 { /* @ts-ignore */ }
                 <Row xs={1} md={5} className="g-4">
-                    {enrolledCourses.map((course) => (
+                    {courses.map((course) => (
                         //@ts-ignore
                         <Col key={course._id} className="wd-dashboard-course" style={{ width: "300px" }}>
                             { /* @ts-ignore */ }
                             <Card>{ /* @ts-ignore */ }
                                 <Card.Body className="card-body">{ /* @ts-ignore */ }
                                     <Card.Title className="wd-dashboard-course-title text-center">
-                                        {course.name}
+                                        {/*// @ts-ignore*/}
+                                        {editCourse && editCourse._id === course._id ? (
+                                            <input
+                                                type="text"
+                                                // @ts-ignore
+                                                value={editCourse.name}
+                                                // @ts-ignore
+                                                onChange={(e) => setEditCourse({ ...editCourse, name: e.target.value })}
+                                            />
+                                        ) : (
+                                            course.name
+                                        )}
                                     </Card.Title>
                                     <Link to={`/Kambaz/Courses/${course._id}/Home`} className="wd-dashboard-course-link text-decoration-none text-center text-dark">{ /* @ts-ignore */ }
                                         <Card.Img src="/images/reactjs.jpg" variant="top" width="100%" height={160} />
@@ -356,6 +423,18 @@ export default function Dashboard() {
                                         <Link to={`/Kambaz/Courses/${course._id}/Home`} className="btn btn-primary">
                                             Go
                                         </Link>{ /* @ts-ignore */ }
+                                        {editCourse && editCourse._id === course._id ? (
+                                            <button className="btn btn-success float-end me-2" onClick={handleSaveCourse}>
+                                                Save
+                                            </button>
+                                        ) : (
+                                            <button className="btn btn-warning float-end me-2" onClick={() => handleEditCourse(course)}>
+                                                Edit
+                                            </button>
+                                        )}{ /* @ts-ignore */ }
+                                        <Button variant="danger" onClick={() => handleDeleteCourse(course._id)}>
+                                            Delete
+                                        </Button>
                                     </div>
                                 </Card.Body>
                             </Card>
@@ -366,4 +445,3 @@ export default function Dashboard() {
         </div>
     );
 }
-
