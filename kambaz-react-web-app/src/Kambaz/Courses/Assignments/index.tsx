@@ -75,38 +75,118 @@
 //     );
 // }
 //
-import { FaPlus, FaRegFileAlt, FaSearch } from "react-icons/fa";
+
+// import { FaPlus, FaRegFileAlt, FaSearch } from "react-icons/fa";
+// import "bootstrap/dist/css/bootstrap.min.css";
+// import { useParams, Link } from "react-router-dom";
+// import { useSelector, useDispatch } from "react-redux";
+// import { addAssignment, deleteAssignment } from "./reducer";
+//
+// export default function Assignments() {
+//     const { courseId } = useParams();
+//     const dispatch = useDispatch();
+//
+//     // // @ts-ignore
+//     // const currentUser = useSelector((state) => state.accountReducer?.currentUser);
+//     //@ts-ignore
+//     const assignments = useSelector((state) => state.assignments?.assignments || []);
+//     //
+//     // const assignments = useSelector((state) => state.assignments?.assignments);
+//     // @ts-ignore
+//     const courseAssignments = Array.isArray(assignments)
+//         ? assignments.filter(a => a.course === courseId)
+//         : [];
+//     //
+//     // const courseAssignments = assignments.filter(a => a.course === courseId);
+//
+//     // Add a new assignment
+//     const handleAddAssignment = () => {
+//         const newAssignment = {
+//             _id: `${Date.now()}`,
+//             course: courseId,
+//             title: "New Assignment",
+//             detail: { module: "Module X", start: "TBA", due: "TBA", points: "0 pts" },
+//         };
+//         dispatch(addAssignment(newAssignment));
+//     };
+//
+//     return (
+//         <div className="container mt-4">
+//             <div className="d-flex justify-content-between align-items-center mb-3">
+//                 <div className="input-group search-bar">
+//                     <span className="input-group-text"><FaSearch /></span>
+//                     <input type="text" className="form-control" placeholder="Search..." />
+//                 </div>
+//
+//                 <button className="btn btn-danger d-flex align-items-center" onClick={handleAddAssignment}>
+//                     <FaPlus className="me-1" /> Add Assignment
+//                 </button>
+//             </div>
+//
+//             <div className="card">
+//                 <div className="card-header d-flex justify-content-between align-items-center">
+//                     <h4 className="fw-bold mb-0">ASSIGNMENTS</h4>
+//                     <span className="badge bg-light text-dark">Total: {courseAssignments.length}</span>
+//                 </div>
+//
+//                 <ul className="list-group list-group-flush">
+//                     {courseAssignments.length > 0 ? (
+//                         //@ts-ignore
+//                         courseAssignments.map((item) => (
+//                             <li key={item._id} className="list-group-item d-flex align-items-center">
+//                                 <FaRegFileAlt className="text-muted me-3 fs-4" />
+//                                 <div className="border-start border-success ps-3 flex-grow-1">
+//                                     <div className="d-flex justify-content-between align-items-center">
+//                                         <div>
+//                                             <Link to={`/Kambaz/Courses/${courseId}/Assignments/${item._id}`} className="fw-bold text-decoration-none">
+//                                                 {item.title}
+//                                             </Link>
+//                                         </div>
+//                                         <button className="btn btn-sm btn-danger" onClick={() => dispatch(deleteAssignment(item._id))}>
+//                                             Delete
+//                                         </button>
+//                                     </div>
+//                                 </div>
+//                             </li>
+//                         ))
+//                     ) : (
+//                         <li className="list-group-item text-muted">No assignments found for this course.</li>
+//                     )}
+//                 </ul>
+//             </div>
+//         </div>
+//     );
+// }
+
+import { FaPlus, FaRegFileAlt, FaSearch, FaFolderPlus } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addAssignment, deleteAssignment } from "./reducer";
 
 export default function Assignments() {
     const { courseId } = useParams();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    // // @ts-ignore
-    // const currentUser = useSelector((state) => state.accountReducer?.currentUser);
-    //@ts-ignore
+    // @ts-ignore
     const assignments = useSelector((state) => state.assignments?.assignments || []);
-    //
-    // const assignments = useSelector((state) => state.assignments?.assignments);
     // @ts-ignore
     const courseAssignments = Array.isArray(assignments)
         ? assignments.filter(a => a.course === courseId)
         : [];
-    //
-    // const courseAssignments = assignments.filter(a => a.course === courseId);
 
-    // Add a new assignment
+    // Handle Add Assignment
     const handleAddAssignment = () => {
         const newAssignment = {
             _id: `${Date.now()}`,
             course: courseId,
             title: "New Assignment",
+            description: "Enter details here...",
             detail: { module: "Module X", start: "TBA", due: "TBA", points: "0 pts" },
         };
         dispatch(addAssignment(newAssignment));
+        navigate(`/Kambaz/Courses/${courseId}/Assignments/${newAssignment._id}`);
     };
 
     return (
@@ -117,9 +197,14 @@ export default function Assignments() {
                     <input type="text" className="form-control" placeholder="Search..." />
                 </div>
 
-                <button className="btn btn-danger d-flex align-items-center" onClick={handleAddAssignment}>
-                    <FaPlus className="me-1" /> Add Assignment
-                </button>
+                <div className="d-flex gap-2">
+                    <button className="btn btn-secondary d-flex align-items-center">
+                        <FaFolderPlus className="me-1" /> Add Group
+                    </button>
+                    <button className="btn btn-danger d-flex align-items-center" onClick={handleAddAssignment}>
+                        <FaPlus className="me-1" /> Add Assignment
+                    </button>
+                </div>
             </div>
 
             <div className="card">
@@ -156,3 +241,4 @@ export default function Assignments() {
         </div>
     );
 }
+

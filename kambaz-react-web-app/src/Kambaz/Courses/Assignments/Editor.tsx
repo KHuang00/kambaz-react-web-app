@@ -152,6 +152,66 @@
 //         </Container>
 //     );
 // }
+
+// import "bootstrap/dist/css/bootstrap.min.css";
+// import { Form, Container } from "react-bootstrap";
+// import { useParams, useNavigate, Link } from "react-router-dom";
+// import { useSelector, useDispatch } from "react-redux";
+// import { updateAssignment } from "./reducer";
+//
+// export default function AssignmentEditor() {
+//     const { courseId, assignmentId } = useParams();
+//     const navigate = useNavigate();
+//     const dispatch = useDispatch();
+//
+//     // @ts-ignore
+//     const assignments = useSelector((state) => state.assignments.assignments);
+//     // @ts-ignore
+//     const assignment = assignments.find((a) => a._id === assignmentId);
+//
+//     if (!assignment) {
+//         return (
+//             // @ts-ignore
+//             <Container className="mt-4">
+//                 <h3 className="text-danger">Assignment Not Found</h3>
+//                 <p>The requested assignment does not exist.</p>
+//                 <Link to={`/Kambaz/Courses/${courseId}/Assignments`} className="btn btn-secondary">Back to Assignments</Link>
+//             </Container>
+//         );
+//     }
+//
+//     {/*@ts-ignore*/}
+//     const handleChange = (e) => {
+//         dispatch(updateAssignment({ ...assignment, [e.target.name]: e.target.value }));
+//     };
+//
+//     return (
+//         // @ts-ignore
+//         <Container className="mt-4">
+//             <h3 className="mb-4">Edit Assignment</h3>
+//             {/*@ts-ignore*/}
+//             <Form>    {/*@ts-ignore*/}
+//                 <Form.Group className="mb-3">    {/*@ts-ignore*/}
+//                     <Form.Label><strong>Assignment Name</strong></Form.Label>    {/*@ts-ignore*/}
+//                     <Form.Control type="text" name="title" defaultValue={assignment.title} onChange={handleChange} />
+//                 </Form.Group>
+//                 {/*@ts-ignore*/}
+//                 <Form.Group className="mb-3">    {/*@ts-ignore*/}
+//                     <Form.Label><strong>Description</strong></Form.Label>    {/*@ts-ignore*/}
+//                     <Form.Control as="textarea" rows={6} name="description" defaultValue={assignment.description} onChange={handleChange} />
+//                 </Form.Group>
+//
+//                 <div className="d-flex justify-content-end gap-2">
+//                     <Link to={`/Kambaz/Courses/${courseId}/Assignments`} className="btn btn-secondary">Cancel</Link>
+//                     <button type="button" className="btn btn-danger" onClick={() => navigate(`/Kambaz/Courses/${courseId}/Assignments`)}>
+//                         Save
+//                     </button>
+//                 </div>
+//             </Form>
+//         </Container>
+//     );
+// }
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Form, Container } from "react-bootstrap";
 import { useParams, useNavigate, Link } from "react-router-dom";
@@ -164,11 +224,12 @@ export default function AssignmentEditor() {
     const dispatch = useDispatch();
 
     // @ts-ignore
-    const assignments = useSelector((state) => state.assignments.assignments);
+    const assignments = useSelector((state) => state.assignments?.assignments || []);
     // @ts-ignore
     const assignment = assignments.find((a) => a._id === assignmentId);
 
     if (!assignment) {
+
         return (
             // @ts-ignore
             <Container className="mt-4">
@@ -179,30 +240,42 @@ export default function AssignmentEditor() {
         );
     }
 
-    {/*@ts-ignore*/}
+    // Handle Change
+    // @ts-ignore
     const handleChange = (e) => {
         dispatch(updateAssignment({ ...assignment, [e.target.name]: e.target.value }));
     };
+
+    // Handle Save
+    const handleSave = () => {
+        navigate(`/Kambaz/Courses/${courseId}/Assignments`);
+    };
+
 
     return (
         // @ts-ignore
         <Container className="mt-4">
             <h3 className="mb-4">Edit Assignment</h3>
-            {/*@ts-ignore*/}
-            <Form>    {/*@ts-ignore*/}
-                <Form.Group className="mb-3">    {/*@ts-ignore*/}
-                    <Form.Label><strong>Assignment Name</strong></Form.Label>    {/*@ts-ignore*/}
+            {/*// @ts-ignore*/}
+            <Form>
+                {/*// @ts-ignore*/}
+                <Form.Group className="mb-3">
+                    {/*// @ts-ignore*/}
+                    <Form.Label><strong>Assignment Name</strong></Form.Label>
+                    {/*// @ts-ignore*/}
                     <Form.Control type="text" name="title" defaultValue={assignment.title} onChange={handleChange} />
                 </Form.Group>
-                {/*@ts-ignore*/}
-                <Form.Group className="mb-3">    {/*@ts-ignore*/}
-                    <Form.Label><strong>Description</strong></Form.Label>    {/*@ts-ignore*/}
+                {/*// @ts-ignore*/}
+                <Form.Group className="mb-3">
+                    {/*// @ts-ignore*/}
+                    <Form.Label><strong>Description</strong></Form.Label>
+                    {/*// @ts-ignore*/}
                     <Form.Control as="textarea" rows={6} name="description" defaultValue={assignment.description} onChange={handleChange} />
                 </Form.Group>
 
                 <div className="d-flex justify-content-end gap-2">
                     <Link to={`/Kambaz/Courses/${courseId}/Assignments`} className="btn btn-secondary">Cancel</Link>
-                    <button type="button" className="btn btn-danger" onClick={() => navigate(`/Kambaz/Courses/${courseId}/Assignments`)}>
+                    <button type="button" className="btn btn-danger" onClick={handleSave}>
                         Save
                     </button>
                 </div>
@@ -210,3 +283,4 @@ export default function AssignmentEditor() {
         </Container>
     );
 }
+
