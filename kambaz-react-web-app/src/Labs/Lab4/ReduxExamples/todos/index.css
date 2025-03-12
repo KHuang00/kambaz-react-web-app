@@ -1,0 +1,40 @@
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.todo-title, .todo-form {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+
+.custom-update-btn {
+    background-color: #FFD700;
+    color: black;
+    border: none;
+}
+
+.custom-add-btn {
+    background-color: green;
+    color: white;
+    border: none;
+}
+
+.custom-edit-btn {
+    background-color: blue;
+    color: white;
+    border: none;
+}
+
+.custom-delete-btn {
+    background-color: red;
+    color: white;
+    border: none;
+}

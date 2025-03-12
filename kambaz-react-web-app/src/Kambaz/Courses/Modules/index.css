@@ -1,3 +1,58 @@
 .no-arrow::after {
     display: none !important;
 }
+.check-icon {
+    vertical-align: middle;
+    margin: auto;
+}
+
+.wd-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    width: 100%;
+    padding: 15px;
+    background-color: #6c757d;
+    border-radius: 5px;
+    min-height: 70px;
+    flex-wrap: nowrap;
+}
+
+.wd-title div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.wd-module {
+    width: 100%;
+    background: white;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.wd-lessons {
+    width: 100%;
+    border-left: 3px solid green;
+    display: flex;
+    flex-direction: column;
+}
+
+.wd-lesson {
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border-bottom: 1px solid #ddd;
+}
+
+.wd-lesson:last-child {
+    border-bottom: none;
+}

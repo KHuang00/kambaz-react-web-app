@@ -1,106 +1,187 @@
+// import { useState, useEffect } from "react";
+// import { useParams } from "react-router";
+// import { ListGroup } from "react-bootstrap";
+// import { BsGripVertical } from "react-icons/bs";
+// import ModulesControls from "./ModulesControls";
+// import LessonControlButtons from "./LessonControlButtons";
+// import ModuleControlButtons from "./ModuleControlButtons";
+// import * as db from "../../Database";
+// import "./index.css";
+//
+// export default function Modules() {
+//     const { courseId } = useParams();
+//     const course = db.courses.find((c: any) => c._id === courseId);
+//
+//     const [modules, setModules] = useState<any[]>([]);
+//     const [moduleName, setModuleName] = useState<string>("");
+//
+//     useEffect(() => {
+//         if (courseId) {
+//             const filteredModules = db.modules.filter((module: any) => module.course === courseId);
+//             setModules(filteredModules);
+//         }
+//     }, [courseId]);
+//
+//     const addModule = () => {
+//         if (!moduleName.trim()) return;
+//         const newModule = {
+//             _id: `m${modules.length + 1}`,
+//             name: moduleName,
+//             course: courseId,
+//             lessons: [],
+//         };
+//         setModules([...modules, newModule]);
+//         setModuleName("");
+//     };
+//
+//     if (!course) {
+//         return <h4 className="text-danger">Course not found.</h4>;
+//     }
+//     const deleteModule = (moduleId: string) => {
+//         setModules(modules.filter((m) => m._id !== moduleId));
+//     };
+//
+//     const editModule = (moduleId: string) => {
+//         setModules(modules.map((m) => (m._id === moduleId ? { ...m, editing: true } : m)));
+//     };
+//     const updateModule = (module: any) => {
+//         setModules(modules.map((m) => (m._id === module._id ? module : m)));
+//     };
+//
+//
+//
+//     return (
+//         <div className="container-fluid">
+//             <ModulesControls
+//                 moduleName={moduleName}
+//                 setModuleName={setModuleName}
+//                 addModule={addModule}
+//             />
+//             <br /><br /><br /><br />
+//
+//             <h2 className="text-primary">{course?.name} - Modules</h2>
+//             { /* @ts-ignore */ }
+//             <ListGroup className="w-100" id="wd-modules">
+//                 {modules.length > 0 ? (
+//                     modules.map((module: any) => (
+//                         // @ts-ignore
+//                         <ListGroup.Item key={module._id} className="wd-module p-0 mb-5 fs-5 border-gray w-100 text-start">
+//                             <div className="wd-title p-3 bg-secondary d-flex align-items-center">
+//                                 <BsGripVertical className="me-2 fs-3" />
+//
+//                                 {/*<span className="flex-grow-1">{module.name}</span>*/}
+//                                 {module.editing ? (
+//                                     //@ts-ignore
+//                                     <FormControl
+//                                         className="w-50 d-inline-block"
+//                                         autoFocus
+//                                         defaultValue={module.name}
+//                                         //@ts-ignore
+//                                         onChange={(e) => updateModule({ ...module, name: e.target.value })}
+//                                         //@ts-ignore
+//                                         onKeyDown={(e) => {
+//                                             if (e.key === "Enter") {
+//                                                 updateModule({ ...module, editing: false });
+//                                             }
+//                                         }}
+//                                     />
+//                                 ) : (
+//                                     <span className="flex-grow-1">{module.name}</span>
+//                                 )}
+//
+//                                 { /* @ts-ignore */ }
+//                                 <ModuleControlButtons moduleId={module._id} deleteModule={deleteModule} editModule={editModule}/>
+//                             </div>
+//                             {module.lessons && (
+//                                 // @ts-ignore
+//                                 <ListGroup className="wd-lessons rounded-0 w-100">
+//                                     {module.lessons.map((lesson: any, index: number) => (
+//                                         // @ts-ignore
+//                                         <ListGroup.Item key={index} className="wd-lesson p-3 text-start d-flex align-items-center w-100">
+//                                             <BsGripVertical className="me-2 fs-3" />
+//                                             <span className="flex-grow-1">{lesson.name}</span>
+//                                             <LessonControlButtons />
+//                                         </ListGroup.Item>
+//                                     ))}
+//                                 </ListGroup>
+//                             )}
+//                         </ListGroup.Item>
+//                     ))
+//                 ) : (
+//                     <h5 className="text-muted">No modules found for this course.</h5>
+//                 )}
+//             </ListGroup>
+//         </div>
+//     );
+// }
+
+import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router";
 import { ListGroup } from "react-bootstrap";
 import { BsGripVertical } from "react-icons/bs";
 import ModulesControls from "./ModulesControls";
 import LessonControlButtons from "./LessonControlButtons";
 import ModuleControlButtons from "./ModuleControlButtons";
-import * as db from "../../Database";
-import {useParams} from "react-router";
-
-// export default function Modules() {
-//     // const { courseId } = useParams();
-//     // const courseModules = db.modules.filter((module) => module.course === courseId);
-//
-//     return (
-//
-//         <div className="container-fluid">
-//             <ModulesControls/>
-//             <br/><br/><br/><br/>{/* @ts-ignore */}
-//             <ListGroup className="w-100" id="wd-modules">
-//                 {[1, 2, 3, 4].map(week => (
-//                     //@ts-ignore
-//                     <ListGroup.Item key={week} className="wd-module p-0 mb-5 fs-5 border-gray w-100 text-start">
-//                         <div className="wd-title p-3 bg-secondary d-flex align-items-center">
-//                             <BsGripVertical className="me-2 fs-3" />
-//                             <span className="flex-grow-1">Week {week}</span>
-//                             <ModuleControlButtons />
-//                         </div>{/* @ts-ignore */}
-//                         <ListGroup className="wd-lessons rounded-0 w-100">
-//                             {["LEARNING OBJECTIVES", "Introduction to the course", "Learn what is Web Development", "READING", "Full Stack Developer - Chapter 1", "Full Stack Developer - Chapter 2"].map((lesson, index) => (
-//                                 //@ts-ignore
-//                                 <ListGroup.Item key={index} className="wd-lesson p-3 text-start d-flex align-items-center w-100">
-//                                     <BsGripVertical className="me-2 fs-3" />
-//                                     <span className="flex-grow-1">{lesson}</span>
-//                                     <LessonControlButtons />
-//                                 </ListGroup.Item>
-//                             ))}
-//                         </ListGroup>
-//                     </ListGroup.Item>
-//                 ))}
-//
-//                 {[5, 6].map(week => (
-//                     //@ts-ignore
-//                     <ListGroup.Item key={week} className="wd-module p-0 mb-5 fs-5 border-gray w-100 text-start">
-//                         <div className="wd-title p-3 bg-secondary d-flex align-items-center">
-//                             <BsGripVertical className="me-2 fs-3" />
-//                             <span className="flex-grow-1">Week {week}</span>
-//                             <ModuleControlButtons />
-//                         </div>
-//                         {/* @ts-ignore */}
-//                         <ListGroup className="wd-lessons rounded-0 w-100">
-//                             {["LEARNING OBJECTIVES", "Learn how to create user interfaces with HTML", "Deploy the assignment to Netlify"].map((lesson, index) => (
-//                                 //@ts-ignore
-//                                 <ListGroup.Item key={index} className="wd-lesson p-3 text-start d-flex align-items-center w-100">
-//                                     <BsGripVertical className="me-2 fs-3" />
-//                                     <span className="flex-grow-1">{lesson}</span>
-//                                     <LessonControlButtons />
-//                                 </ListGroup.Item>
-//                             ))}
-//                         </ListGroup>
-//                     </ListGroup.Item>
-//                 ))}
-//             </ListGroup>
-//         </div>
-//
-//     );
-// }
-//
-
-
-
+import { addModule, editModule, updateModule, deleteModule } from "./reducer";
+import "./index.css";
 
 export default function Modules() {
     const { courseId } = useParams();
-    const course = db.courses.find((c: any) => c._id === courseId);
-    const courseModules = db.modules.filter((module: any) => module.course === courseId);
+    const dispatch = useDispatch();
+    const { modules } = useSelector((state: any) => state.modulesReducer);
+    const courseModules = modules.filter((module: any) => module.course === courseId);
 
-    if (!course) {
-        return <h4 className="text-danger">Course not found.</h4>;
-    }
     return (
         <div className="container-fluid">
-            <ModulesControls />
+            {/*@ts-ignore*/}
+            <ModulesControls
+
+                //@ts-ignore
+                addModule={(moduleName) => {
+                    dispatch(addModule({ name: moduleName, course: courseId }));
+                }}
+            />
             <br /><br /><br /><br />
 
-            <h2 className="text-primary">{course?.name} - Modules</h2>
-
-            {/* @ts-ignore */}
+            <h2 className="text-primary">Modules</h2>
+            { /* @ts-ignore */ }
             <ListGroup className="w-100" id="wd-modules">
-                {/* @ts-ignore */}
                 {courseModules.length > 0 ? (
                     courseModules.map((module: any) => (
-                        /* @ts-ignore */
+                        // @ts-ignore
                         <ListGroup.Item key={module._id} className="wd-module p-0 mb-5 fs-5 border-gray w-100 text-start">
                             <div className="wd-title p-3 bg-secondary d-flex align-items-center">
                                 <BsGripVertical className="me-2 fs-3" />
-                                <span className="flex-grow-1">{module.name}</span>
-                                <ModuleControlButtons />
+                                {module.editing ? (
+                                    //@ts-ignore
+                                    <FormControl
+                                        className="w-50 d-inline-block"
+                                        autoFocus
+                                        defaultValue={module.name}
+                                        //@ts-ignore
+                                        onChange={(e) => dispatch(updateModule({ ...module, name: e.target.value }))}
+                                        //@ts-ignore
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter") {
+                                                dispatch(updateModule({ ...module, editing: false }));
+                                            }
+                                        }}
+                                    />
+                                ) : (
+                                    <span className="flex-grow-1">{module.name}</span>
+                                )}
+                                { /* @ts-ignore */ }
+                                <ModuleControlButtons
+                                    moduleId={module._id}
+                                    deleteModule={() => dispatch(deleteModule(module._id))}
+                                    editModule={() => dispatch(editModule(module._id))}
+                                />
                             </div>
-                            {/* @ts-ignore */}
                             {module.lessons && (
-                                //  @ts-ignore
+                                // @ts-ignore
                                 <ListGroup className="wd-lessons rounded-0 w-100">
                                     {module.lessons.map((lesson: any, index: number) => (
-                                        /* @ts-ignore */
+                                        // @ts-ignore
                                         <ListGroup.Item key={index} className="wd-lesson p-3 text-start d-flex align-items-center w-100">
                                             <BsGripVertical className="me-2 fs-3" />
                                             <span className="flex-grow-1">{lesson.name}</span>
@@ -118,7 +199,3 @@ export default function Modules() {
         </div>
     );
 }
-
-
-
-

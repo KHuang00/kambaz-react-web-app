@@ -1,69 +1,143 @@
-import { FaCheckCircle, FaEllipsisV, FaPlus, FaRegFileAlt, FaSearch } from "react-icons/fa";
+// import { FaCheckCircle, FaEllipsisV, FaPlus, FaRegFileAlt, FaSearch } from "react-icons/fa";
+// import "bootstrap/dist/css/bootstrap.min.css";
+// import { useParams } from "react-router";
+// import { assignments } from "../../Database";
+//
+// export default function Assignments() {
+//     const { courseId } = useParams();
+//
+//     const courseAssignments = assignments.filter(assignment => assignment.course === courseId);
+//
+//     return (
+//         <div className="container mt-4">
+//             <div className="d-flex justify-content-between align-items-center mb-3">
+//                 <div className="input-group search-bar">
+//                     <span className="input-group-text">
+//                         <FaSearch />
+//                     </span>
+//                     <input
+//                         type="text"
+//                         className="form-control"
+//                         placeholder="Search..."
+//                     />
+//                 </div>
+//
+//                 <div className="d-flex align-items-center">
+//                     <button className="btn btn-outline-secondary me-2 d-flex align-items-center">
+//                         <FaPlus className="me-1" /> Group
+//                     </button>
+//                     <button className="btn btn-danger d-flex align-items-center">
+//                         <FaPlus className="me-1" /> Assignment
+//                     </button>
+//                 </div>
+//             </div>
+//
+//             <div className="card">
+//                 <div className="card-header d-flex justify-content-between align-items-center">
+//                     <h4 className="fw-bold mb-0">ASSIGNMENTS</h4>
+//                     <div className="d-flex align-items-center">
+//                         <span className="badge bg-light text-dark me-2">40% of Total</span>
+//                         <FaPlus className="text-muted" />
+//                     </div>
+//                 </div>
+//
+//                 <ul className="list-group list-group-flush">
+//                     {courseAssignments.length > 0 ? (
+//                         courseAssignments.map((item) => (
+//                             <li key={item._id} className="list-group-item d-flex align-items-center">
+//                                 <FaRegFileAlt className="text-muted me-3 fs-4" />
+//                                 <div className="border-start border-success ps-3 flex-grow-1">
+//                                     <div className="d-flex justify-content-between align-items-center">
+//                                         <div>
+//                                             <a href={`#/Kambaz/Courses/${courseId}/Assignments/${item._id}`} className="fw-bold text-decoration-none">
+//                                                 {item.title}
+//                                             </a>
+//                                             <p className="text-muted mb-0">
+//                                                 <span className="text-danger fw-bold">{item.detail.module}</span> |
+//                                                 Available Until: {item.detail.start} |
+//                                                 Due: {item.detail.due} |
+//                                                 {item.detail.points}
+//                                             </p>
+//
+//                                         </div>
+//                                         <FaCheckCircle className="text-success ms-2" />
+//                                     </div>
+//                                 </div>
+//                                 <FaEllipsisV className="text-muted ms-3" />
+//                             </li>
+//                         ))
+//                     ) : (
+//                         <li className="list-group-item text-muted">No assignments found for this course.</li>
+//                     )}
+//                 </ul>
+//             </div>
+//         </div>
+//     );
+// }
+//
+import { FaPlus, FaRegFileAlt, FaSearch } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useParams } from "react-router";
-import { assignments } from "../../Database";
+import { useParams, Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { addAssignment, deleteAssignment } from "./reducer";
 
 export default function Assignments() {
     const { courseId } = useParams();
+    const dispatch = useDispatch();
 
-    const courseAssignments = assignments.filter(assignment => assignment.course === courseId);
+    // @ts-ignore
+    const assignments = useSelector((state) => state.assignments.assignments);
+    // @ts-ignore
+    const courseAssignments = assignments.filter(a => a.course === courseId);
+
+    // Add a new assignment
+    const handleAddAssignment = () => {
+        const newAssignment = {
+            _id: `${Date.now()}`,
+            course: courseId,
+            title: "New Assignment",
+            detail: { module: "Module X", start: "TBA", due: "TBA", points: "0 pts" },
+        };
+        dispatch(addAssignment(newAssignment));
+    };
 
     return (
         <div className="container mt-4">
             <div className="d-flex justify-content-between align-items-center mb-3">
                 <div className="input-group search-bar">
-                    <span className="input-group-text">
-                        <FaSearch />
-                    </span>
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Search..."
-                    />
+                    <span className="input-group-text"><FaSearch /></span>
+                    <input type="text" className="form-control" placeholder="Search..." />
                 </div>
 
-                <div className="d-flex align-items-center">
-                    <button className="btn btn-outline-secondary me-2 d-flex align-items-center">
-                        <FaPlus className="me-1" /> Group
-                    </button>
-                    <button className="btn btn-danger d-flex align-items-center">
-                        <FaPlus className="me-1" /> Assignment
-                    </button>
-                </div>
+                <button className="btn btn-danger d-flex align-items-center" onClick={handleAddAssignment}>
+                    <FaPlus className="me-1" /> Add Assignment
+                </button>
             </div>
 
             <div className="card">
                 <div className="card-header d-flex justify-content-between align-items-center">
                     <h4 className="fw-bold mb-0">ASSIGNMENTS</h4>
-                    <div className="d-flex align-items-center">
-                        <span className="badge bg-light text-dark me-2">40% of Total</span>
-                        <FaPlus className="text-muted" />
-                    </div>
+                    <span className="badge bg-light text-dark">Total: {courseAssignments.length}</span>
                 </div>
 
                 <ul className="list-group list-group-flush">
                     {courseAssignments.length > 0 ? (
+                        //@ts-ignore
                         courseAssignments.map((item) => (
                             <li key={item._id} className="list-group-item d-flex align-items-center">
                                 <FaRegFileAlt className="text-muted me-3 fs-4" />
                                 <div className="border-start border-success ps-3 flex-grow-1">
                                     <div className="d-flex justify-content-between align-items-center">
                                         <div>
-                                            <a href={`#/Kambaz/Courses/${courseId}/Assignments/${item._id}`} className="fw-bold text-decoration-none">
+                                            <Link to={`/Kambaz/Courses/${courseId}/Assignments/${item._id}`} className="fw-bold text-decoration-none">
                                                 {item.title}
-                                            </a>
-                                            <p className="text-muted mb-0">
-                                                <span className="text-danger fw-bold">{item.detail.module}</span> |
-                                                Available Until: {item.detail.start} |
-                                                Due: {item.detail.due} |
-                                                {item.detail.points}
-                                            </p>
-
+                                            </Link>
                                         </div>
-                                        <FaCheckCircle className="text-success ms-2" />
+                                        <button className="btn btn-sm btn-danger" onClick={() => dispatch(deleteAssignment(item._id))}>
+                                            Delete
+                                        </button>
                                     </div>
                                 </div>
-                                <FaEllipsisV className="text-muted ms-3" />
                             </li>
                         ))
                     ) : (
@@ -74,4 +148,3 @@ export default function Assignments() {
         </div>
     );
 }
-
