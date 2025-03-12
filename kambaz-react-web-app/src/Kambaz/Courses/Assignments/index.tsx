@@ -85,10 +85,18 @@ export default function Assignments() {
     const { courseId } = useParams();
     const dispatch = useDispatch();
 
+    // // @ts-ignore
+    // const currentUser = useSelector((state) => state.accountReducer?.currentUser);
+    //@ts-ignore
+    const assignments = useSelector((state) => state.assignments?.assignments || []);
+    //
+    // const assignments = useSelector((state) => state.assignments?.assignments);
     // @ts-ignore
-    const assignments = useSelector((state) => state.assignments.assignments);
-    // @ts-ignore
-    const courseAssignments = assignments.filter(a => a.course === courseId);
+    const courseAssignments = Array.isArray(assignments)
+        ? assignments.filter(a => a.course === courseId)
+        : [];
+    //
+    // const courseAssignments = assignments.filter(a => a.course === courseId);
 
     // Add a new assignment
     const handleAddAssignment = () => {

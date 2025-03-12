@@ -5,9 +5,10 @@ import accountReducer from "./Account/reducer";
 import assignmentsReducer from "./Courses/Assignments/reducer.ts"
 const store = configureStore({
     reducer: {
-        modulesReducer,
-        accountReducer,
-        assignments: assignmentsReducer,
+         accountReducer,
+         modulesReducer,
+         assignmentsReducer,
+
     },
 });
 export default store;

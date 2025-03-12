@@ -115,6 +115,186 @@
 //     );
 // }
 
+// import { useSelector, useDispatch } from "react-redux";
+// import { useParams } from "react-router";
+// import { ListGroup } from "react-bootstrap";
+// import { BsGripVertical } from "react-icons/bs";
+// import ModulesControls from "./ModulesControls";
+// import LessonControlButtons from "./LessonControlButtons";
+// import ModuleControlButtons from "./ModuleControlButtons";
+// import { addModule, editModule, updateModule, deleteModule } from "./reducer";
+// import "./index.css";
+//
+// export default function Modules() {
+//     const { courseId } = useParams();
+//     const dispatch = useDispatch();
+//     const { modules } = useSelector((state: any) => state.modulesReducer);
+//     const courseModules = modules.filter((module: any) => module.course === courseId);
+//
+//     return (
+//         <div className="container-fluid">
+//             {/*@ts-ignore*/}
+//             <ModulesControls
+//
+//                 //@ts-ignore
+//                 addModule={(moduleName) => {
+//                     dispatch(addModule({ name: moduleName, course: courseId }));
+//                 }}
+//             />
+//             <br /><br /><br /><br />
+//
+//             <h2 className="text-primary">Modules</h2>
+//             { /* @ts-ignore */ }
+//             <ListGroup className="w-100" id="wd-modules">
+//                 {courseModules.length > 0 ? (
+//                     courseModules.map((module: any) => (
+//                         // @ts-ignore
+//                         <ListGroup.Item key={module._id} className="wd-module p-0 mb-5 fs-5 border-gray w-100 text-start">
+//                             <div className="wd-title p-3 bg-secondary d-flex align-items-center">
+//                                 <BsGripVertical className="me-2 fs-3" />
+//                                 {module.editing ? (
+//                                     //@ts-ignore
+//                                     <FormControl
+//                                         className="w-50 d-inline-block"
+//                                         autoFocus
+//                                         defaultValue={module.name}
+//                                         //@ts-ignore
+//                                         onChange={(e) => dispatch(updateModule({ ...module, name: e.target.value }))}
+//                                         //@ts-ignore
+//                                         onKeyDown={(e) => {
+//                                             if (e.key === "Enter") {
+//                                                 dispatch(updateModule({ ...module, editing: false }));
+//                                             }
+//                                         }}
+//                                     />
+//                                 ) : (
+//                                     <span className="flex-grow-1">{module.name}</span>
+//                                 )}
+//                                 { /* @ts-ignore */ }
+//                                 <ModuleControlButtons
+//                                     moduleId={module._id}
+//                                     deleteModule={() => dispatch(deleteModule(module._id))}
+//                                     editModule={() => dispatch(editModule(module._id))}
+//                                 />
+//                             </div>
+//                             {module.lessons && (
+//                                 // @ts-ignore
+//                                 <ListGroup className="wd-lessons rounded-0 w-100">
+//                                     {module.lessons.map((lesson: any, index: number) => (
+//                                         // @ts-ignore
+//                                         <ListGroup.Item key={index} className="wd-lesson p-3 text-start d-flex align-items-center w-100">
+//                                             <BsGripVertical className="me-2 fs-3" />
+//                                             <span className="flex-grow-1">{lesson.name}</span>
+//                                             <LessonControlButtons />
+//                                         </ListGroup.Item>
+//                                     ))}
+//                                 </ListGroup>
+//                             )}
+//                         </ListGroup.Item>
+//                     ))
+//                 ) : (
+//                     <h5 className="text-muted">No modules found for this course.</h5>
+//                 )}
+//             </ListGroup>
+//         </div>
+//     );
+// }
+
+// import { useSelector, useDispatch } from "react-redux";
+// import { useParams } from "react-router";
+// import { ListGroup } from "react-bootstrap";
+// import { BsGripVertical } from "react-icons/bs";
+// import ModulesControls from "./ModulesControls";
+// import LessonControlButtons from "./LessonControlButtons";
+// import ModuleControlButtons from "./ModuleControlButtons";
+// import { addModule, editModule, updateModule, deleteModule } from "./reducer";
+// import "./index.css";
+//
+// export default function Modules() {
+//     const { courseId } = useParams();
+//     const dispatch = useDispatch();
+//     //@ts-ignore
+//     const { modules } = useSelector((state) => state.modulesReducer);
+//
+//     console.log(" Current `courseId` from `useParams()`:", courseId);
+//     console.log("All Modules in Redux:", modules);
+//
+//     // Ensure the courseId is compared correctly (string vs number)
+//
+//     //@ts-ignore
+//     const courseModules = modules.filter((module) => String(module.course) === String(courseId));
+//
+//     console.log(" Filtered Modules for Course:", courseModules);
+//
+//     return (
+//         <div className="container-fluid">
+//             {/*@ts-ignore*/}
+//             <ModulesControls
+//                 //@ts-ignore
+//                 addModule={(moduleName) => {
+//                     dispatch(addModule({ name: moduleName, course: courseId }));
+//                 }}
+//             />
+//             <br /><br /><br /><br />
+//
+//             <h2 className="text-primary">Modules</h2>
+//             { /* @ts-ignore */ }
+//             <ListGroup className="w-100" id="wd-modules">
+//                 {courseModules.length > 0 ? (
+//                     courseModules.map((module: any) => (
+//                         // @ts-ignore
+//                         <ListGroup.Item key={module._id} className="wd-module p-0 mb-5 fs-5 border-gray w-100 text-start">
+//                             <div className="wd-title p-3 bg-secondary d-flex align-items-center">
+//                                 <BsGripVertical className="me-2 fs-3" />
+//                                 {module.editing ? (
+//                                     //@ts-ignore
+//                                     <FormControl
+//                                         className="w-50 d-inline-block"
+//                                         autoFocus
+//                                         defaultValue={module.name}
+//                                         //@ts-ignore
+//                                         onChange={(e) => dispatch(updateModule({ ...module, name: e.target.value })) }
+//                                         //@ts-ignore
+//                                         onKeyDown={(e) => {
+//                                             if (e.key === "Enter") {
+//                                                 dispatch(updateModule({ ...module, editing: false }));
+//                                             }
+//                                         }}
+//                                     />
+//                                 ) : (
+//                                     <span className="flex-grow-1">{module.name}</span>
+//                                 )}
+//                                 { /* @ts-ignore */ }
+//                                 <ModuleControlButtons
+//                                     moduleId={module._id}
+//                                     deleteModule={() => dispatch(deleteModule(module._id))}
+//                                     editModule={() => dispatch(editModule(module._id))}
+//                                 />
+//                             </div>
+//                             {module.lessons && (
+//                                 // @ts-ignore
+//                                 <ListGroup className="wd-lessons rounded-0 w-100">
+//                                     {module.lessons.map((lesson: any, index: number) => (
+//                                         // @ts-ignore
+//                                         <ListGroup.Item key={index} className="wd-lesson p-3 text-start d-flex align-items-center w-100">
+//                                             <BsGripVertical className="me-2 fs-3" />
+//                                             <span className="flex-grow-1">{lesson.name}</span>
+//                                             <LessonControlButtons />
+//                                         </ListGroup.Item>
+//                                     ))}
+//                                 </ListGroup>
+//                             )}
+//                         </ListGroup.Item>
+//                     ))
+//                 ) : (
+//                     <h5 className="text-muted">No modules found for this course.</h5>
+//                 )}
+//             </ListGroup>
+//         </div>
+//     );
+// }
+//
+
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router";
 import { ListGroup } from "react-bootstrap";
@@ -128,15 +308,35 @@ import "./index.css";
 export default function Modules() {
     const { courseId } = useParams();
     const dispatch = useDispatch();
-    const { modules } = useSelector((state: any) => state.modulesReducer);
-    const courseModules = modules.filter((module: any) => module.course === courseId);
+
+    // @ts-ignore
+    const currentUser = useSelector((state:any) => state.accountReducer?.currentUser);
+
+
+    if (!currentUser) {
+        return <div className="text-muted">Loading user data...</div>;
+    }
+
+    // @ts-ignore
+    const modules = useSelector((state:any) => state.modulesReducer?.modules || []);
+
+    console.log("Current User:", currentUser);
+    console.log("Current `courseId` from `useParams()`:", courseId);
+    console.log("All Modules in Redux:", modules);
+
+    const courseModules = modules.filter((module: any) => String(module.course) === String(courseId));
+
+    console.log("Filtered Modules for Course:", courseModules);
+
+    if (!currentUser) {
+        return <div className="text-muted">Loading user data...</div>;
+    }
 
     return (
         <div className="container-fluid">
-            {/*@ts-ignore*/}
+            {/*// @ts-ignore*/}
             <ModulesControls
-
-                //@ts-ignore
+                // @ts-ignore
                 addModule={(moduleName) => {
                     dispatch(addModule({ name: moduleName, course: courseId }));
                 }}
@@ -144,7 +344,7 @@ export default function Modules() {
             <br /><br /><br /><br />
 
             <h2 className="text-primary">Modules</h2>
-            { /* @ts-ignore */ }
+            {/*@ts-ignore*/}
             <ListGroup className="w-100" id="wd-modules">
                 {courseModules.length > 0 ? (
                     courseModules.map((module: any) => (
@@ -153,14 +353,11 @@ export default function Modules() {
                             <div className="wd-title p-3 bg-secondary d-flex align-items-center">
                                 <BsGripVertical className="me-2 fs-3" />
                                 {module.editing ? (
-                                    //@ts-ignore
-                                    <FormControl
+                                    <input
                                         className="w-50 d-inline-block"
                                         autoFocus
                                         defaultValue={module.name}
-                                        //@ts-ignore
                                         onChange={(e) => dispatch(updateModule({ ...module, name: e.target.value }))}
-                                        //@ts-ignore
                                         onKeyDown={(e) => {
                                             if (e.key === "Enter") {
                                                 dispatch(updateModule({ ...module, editing: false }));
@@ -170,7 +367,6 @@ export default function Modules() {
                                 ) : (
                                     <span className="flex-grow-1">{module.name}</span>
                                 )}
-                                { /* @ts-ignore */ }
                                 <ModuleControlButtons
                                     moduleId={module._id}
                                     deleteModule={() => dispatch(deleteModule(module._id))}
@@ -199,3 +395,4 @@ export default function Modules() {
         </div>
     );
 }
+
