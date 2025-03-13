@@ -223,10 +223,13 @@ export default function AssignmentEditor() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+
     // @ts-ignore
     const assignments = useSelector((state) => state.assignments?.assignments || []);
     // @ts-ignore
-    const assignment = assignments.find((a) => a._id === assignmentId);
+    const assignment = assignments.find((a) => String(a._id) === String(assignmentId));
+
+    // const assignment = assignments.find((a) => a._id === assignmentId);
 
     if (!assignment) {
 

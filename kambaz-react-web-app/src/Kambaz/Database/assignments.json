@@ -47,6 +47,14 @@
     "due": "06/20/2025 at 07:59 PM",
     "points": "100 pts"
   } },
+
+  { "_id": "RS101", "title": "RS101 Ass", "course": "RS101", "detail": {
+    "module": "Module 4",
+    "start": "02/10/2025 at 08:00 AM",
+    "due": "04/20/2025 at 07:59 PM",
+    "points": "100 pts"
+  }},
+
   { "_id": "A303", "title": "Systems Engineering Exam", "course": "RS103", "detail": {
     "module": "Module 4",
     "start": "02/10/2025 at 08:00 AM",

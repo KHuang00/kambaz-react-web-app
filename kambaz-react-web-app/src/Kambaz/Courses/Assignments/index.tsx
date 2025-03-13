@@ -169,12 +169,16 @@ export default function Assignments() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+
     // @ts-ignore
     const assignments = useSelector((state) => state.assignments?.assignments || []);
+    //
+    // const assignments = useSelector((state) => state.assignments?.assignments);
     // @ts-ignore
     const courseAssignments = Array.isArray(assignments)
         ? assignments.filter(a => a.course === courseId)
         : [];
+    // const courseAssignments = assignments.filter(assignment => assignment.course === courseId);
 
     // Handle Add Assignment
     const handleAddAssignment = () => {
@@ -188,6 +192,10 @@ export default function Assignments() {
         dispatch(addAssignment(newAssignment));
         navigate(`/Kambaz/Courses/${courseId}/Assignments/${newAssignment._id}`);
     };
+    console.log("Redux Assignments:", assignments);
+    console.log("Course ID from URL:", courseId);
+    console.log("Filtered Assignments:", courseAssignments);
+
 
     return (
         <div className="container mt-4">
