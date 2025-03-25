@@ -75,7 +75,7 @@ import { Form, Button, Container } from "react-bootstrap";
 export default function Profile() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const currentUser = useSelector((state: any) => state.accountReducer.currentUser);
+    const currentUser = useSelector((state: any) => state.account.currentUser);
 
     const [profile, setProfile] = useState(currentUser || {});
 

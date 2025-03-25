@@ -248,7 +248,7 @@ export default function Courses({ courses }) {
     const [userCourses, setUserCourses] = useState([]);
 
     // @ts-ignore
-    const currentUser = useSelector((state) => state.accountReducer?.currentUser);
+    const currentUser = useSelector((state) => state.account?.currentUser);
     console.log("Current User:", currentUser);
 
     useEffect(() => {

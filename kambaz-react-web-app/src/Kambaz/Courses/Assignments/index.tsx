@@ -161,24 +161,33 @@
 import { FaPlus, FaRegFileAlt, FaSearch, FaFolderPlus } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { addAssignment, deleteAssignment } from "./reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {addAssignment, deleteAssignment, setAssignments} from "./reducer";
+import {useEffect} from "react";
+import { assignments as dbAssignments } from "../../Database";
+
+
 
 export default function Assignments() {
     const { courseId } = useParams();
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+   const dispatch = useDispatch();
+    useEffect(() => {
+        console.log("Loading assignments from DB:", dbAssignments);
+        dispatch(setAssignments(dbAssignments));
+    }, [dispatch]);
 
+    //@ts-ignore
+    console.log("Redux Assignments Before useSelector:", useSelector((state) => state.assignments));
+    //@ts-ignore
+    const assignments = useSelector((state) => state.assignments?.assignments || []);
 
     // @ts-ignore
-    const assignments = useSelector((state) => state.assignments?.assignments || []);
+    // const assignments = useSelector((state) => state.assignments?.assignments || []);
     //
     // const assignments = useSelector((state) => state.assignments?.assignments);
     // @ts-ignore
-    const courseAssignments = Array.isArray(assignments)
-        ? assignments.filter(a => a.course === courseId)
-        : [];
-    // const courseAssignments = assignments.filter(assignment => assignment.course === courseId);
+    const courseAssignments = assignments.filter(a => a.course === courseId);
 
     // Handle Add Assignment
     const handleAddAssignment = () => {

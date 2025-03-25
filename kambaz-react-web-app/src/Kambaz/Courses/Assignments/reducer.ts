@@ -80,20 +80,22 @@ import { assignments as dbAssignments } from "../../Database";
 console.log("Loaded Assignments from Database:", dbAssignments);
 
 
-const loadAssignments = () => {
-    try {
-//@ts-ignore
-        const saved = JSON.parse(localStorage.getItem("assignments"));
-        return saved && saved.length ? saved : dbAssignments;
-    } catch {
-        return dbAssignments;
-    }
-};
+// const loadAssignments = () => {
+//     try {
+// //@ts-ignore
+//         const saved = JSON.parse(localStorage.getItem("assignments"));
+//         return saved && saved.length ? saved : dbAssignments;
+//     } catch {
+//         return dbAssignments;
+//     }
+// };
 
+// const initialState = {
+//     assignments: loadAssignments() || [],
+// };
 const initialState = {
-    assignments: loadAssignments() || [],
+    assignments: [],
 };
-
 
 
 //@ts-ignore
@@ -105,7 +107,11 @@ const assignmentsSlice = createSlice({
     name: "assignments",
     initialState,
     reducers: {
+        setAssignments: (state, action) => {
+            state.assignments = action.payload;
+        },
         addAssignment: (state, action) => {
+            // @ts-ignore
             state.assignments.push(action.payload);
             saveAssignments(state.assignments);
         },
@@ -116,6 +122,7 @@ const assignmentsSlice = createSlice({
         updateAssignment: (state, action) => {//@ts-ignore
             const index = state.assignments.findIndex(a => a._id === action.payload._id);
             if (index !== -1) {
+                // @ts-ignore
                 state.assignments[index] = action.payload;
                 saveAssignments(state.assignments);
             }
@@ -123,9 +130,5 @@ const assignmentsSlice = createSlice({
     },
 });
 
-
-
-
-
-export const { addAssignment, deleteAssignment, updateAssignment } = assignmentsSlice.actions;
+export const { setAssignments, addAssignment, deleteAssignment, updateAssignment } = assignmentsSlice.actions;
 export default assignmentsSlice.reducer;

@@ -313,7 +313,7 @@ import "./index.css";
 export default function Dashboard() {
     // Retrieve current user from Redux store
     { /* @ts-ignore */ }
-    const currentUser = useSelector((state) => state.accountReducer?.currentUser);
+    const currentUser = useSelector((state) => state.account?.currentUser);
     console.log("Dashboard Loaded");
     console.log("Redux State - Current User:", currentUser);
 
@@ -445,3 +445,4 @@ export default function Dashboard() {
         </div>
     );
 }
+

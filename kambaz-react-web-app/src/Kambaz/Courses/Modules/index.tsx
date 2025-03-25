@@ -310,7 +310,7 @@ export default function Modules() {
     const dispatch = useDispatch();
 
     // @ts-ignore
-    const currentUser = useSelector((state:any) => state.accountReducer?.currentUser);
+    const currentUser = useSelector((state:any) => state.account?.currentUser);
 
 
     if (!currentUser) {
