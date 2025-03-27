@@ -324,7 +324,12 @@ export default function Modules() {
     console.log("Current `courseId` from `useParams()`:", courseId);
     console.log("All Modules in Redux:", modules);
 
-    const courseModules = modules.filter((module: any) => String(module.course) === String(courseId));
+    const courseModules = useSelector((state) =>
+        //@ts-ignore
+        state.modules?.modules?.filter((module) => module.course === courseId)
+    );
+
+    // const courseModules = modules.filter((module: any) => String(module.course) === String(courseId));
 
     console.log("Filtered Modules for Course:", courseModules);
 
