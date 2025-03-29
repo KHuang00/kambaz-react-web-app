@@ -78,6 +78,7 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import ProtectedRoute from "./Account/ProtectedRoute.tsx";
 
+
 export default function Kambaz() {
     // @ts-ignore
     const [courses, setCourses] = useState<any[]>(db.courses);

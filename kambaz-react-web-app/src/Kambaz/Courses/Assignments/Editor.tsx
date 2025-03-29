@@ -217,17 +217,19 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { Container, Form, Card, Row, Col } from "react-bootstrap";
-import { updateAssignment } from "./reducer";
+import { addAssignment, updateAssignment } from "./reducer";
 
 export default function AssignmentEditor() {
     const { courseId, assignmentId } = useParams();
+    const isNew = assignmentId === "new";
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     // @ts-ignore
     const assignments = useSelector((state) => state.assignments?.assignments || []);
     // @ts-ignore
-    const assignment = assignments.find((a) => String(a._id) === String(assignmentId));
+    // const assignment = assignments.find((a) => String(a._id) === String(assignmentId));
+    const assignment = isNew ? null : assignments.find((a) => String(a._id) === String(assignmentId));
 
     const [formData, setFormData] = useState({
         title: "",
@@ -241,19 +243,21 @@ export default function AssignmentEditor() {
     });
 
     useEffect(() => {
-        if (assignment) {
+        if (!isNew && assignment) {
             setFormData({
                 title: assignment.title || "",
                 description: assignment.description || `Description of ${assignment.title}`,
-                submissionType: "Online",
-                onlineEntryOptions: [],
-                assignTo: "Everyone",
-                due: "2024-05-13T23:59",
-                availableFrom: "2024-05-06T00:00",
-                until: "2024-05-20T23:59",
+                submissionType: assignment.submissionType || "Online",
+                onlineEntryOptions: assignment.onlineEntryOptions || [],
+                assignTo: assignment.assignTo || "Everyone",
+                due: assignment.detail?.due || "2024-05-13T23:59",
+                availableFrom:  assignment.detail?.start || "2024-05-06T00:00",
+                until:assignment.until || "2024-05-20T23:59",
             });
+        } else if (isNew) {
+            // Default form values already in useState,  can reset explicitly if needed
         }
-    }, [assignment]);
+    }, [assignment, isNew]);
     // @ts-ignore
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -272,28 +276,46 @@ export default function AssignmentEditor() {
     };
 
     const handleSave = () => {
-        dispatch(
-            updateAssignment({
-                ...assignment,
+        if (isNew) {
+            // When adding a new assignment
+            const newAssignment = {
+                // Generate unique ID
+                _id: new Date().getTime().toString(),
                 title: formData.title,
                 description: formData.description,
-                detail: {
-                    ...assignment.detail,
-                    start: formData.availableFrom,
-                    due: formData.due,
-                    points: assignment.detail.points,
-                    module: assignment.detail.module,
-                },
-                submissionType: formData.submissionType,
-                onlineEntryOptions: formData.onlineEntryOptions,
-                assignTo: formData.assignTo,
-                until: formData.until,
-            })
-        );
+                course: courseId,
+                points: 100,
+                dueDate: formData.due,
+                availableFrom: formData.availableFrom,
+                availableUntil: formData.until,
+            };
+
+            dispatch(addAssignment(newAssignment));
+        } else {
+            dispatch(
+                updateAssignment({
+                    ...assignment,
+                    title: formData.title,
+                    description: formData.description,
+                    detail: {
+                        ...assignment.detail,
+                        start: formData.availableFrom,
+                        due: formData.due,
+                        points: assignment.detail.points,
+                        module: assignment.detail.module,
+                    },
+                    submissionType: formData.submissionType,
+                    onlineEntryOptions: formData.onlineEntryOptions,
+                    assignTo: formData.assignTo,
+                    until: formData.until,
+                })
+            );
+        }
+
         navigate(`/Kambaz/Courses/${courseId}/Assignments`);
     };
 
-    if (!assignment) {
+    if (!isNew && !assignment) {
         return (
             // @ts-ignore
             <Container className="mt-4">
