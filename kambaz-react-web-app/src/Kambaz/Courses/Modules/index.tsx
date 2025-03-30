@@ -304,10 +304,14 @@ import LessonControlButtons from "./LessonControlButtons";
 import ModuleControlButtons from "./ModuleControlButtons";
 import { addModule, editModule, updateModule, deleteModule } from "./reducer";
 import "./index.css";
+import {useState} from "react";
 
 export default function Modules() {
     const { courseId } = useParams();
     const dispatch = useDispatch();
+    const [moduleName, setModuleName] = useState("");
+
+
 
     // @ts-ignore
     const currentUser = useSelector((state:any) => state.account?.currentUser);
@@ -341,6 +345,8 @@ export default function Modules() {
         <div className="container-fluid">
             {/*// @ts-ignore*/}
             <ModulesControls
+                moduleName={moduleName}
+                setModuleName={setModuleName}
                 // @ts-ignore
                 addModule={(moduleName) => {
                     dispatch(addModule({ name: moduleName, course: courseId }));

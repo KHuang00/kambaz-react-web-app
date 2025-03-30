@@ -73,7 +73,7 @@ export default function ModulesControls({ moduleName = "", setModuleName, addMod
 
     const handleAddModule = () => {
         if (!moduleName?.trim()) return;
-        addModule();
+        addModule(moduleName);
         setModuleName(""); // Reset name after adding
         handleCloseModuleEditor();
     };
