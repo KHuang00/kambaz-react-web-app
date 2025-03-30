@@ -303,12 +303,13 @@
 // }
 
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch} from "react-redux";
 import { Link } from "react-router-dom";
 import { Card, Row, Col, Button } from "react-bootstrap";
 import * as db from "./Database";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 import "./index.css";
+import {addCourse, deleteCourse, updateCourse} from "./Courses/reducer.ts";
 
 export default function Dashboard() {
     // Retrieve current user from Redux store
@@ -330,22 +331,27 @@ export default function Dashboard() {
 
     console.log("User's Enrolled Courses:", enrolledCourses);
 
-    const [courses, setCourses] = useState(enrolledCourses);
+    // const [courses, setCourses] = useState(enrolledCourses);
+    // @ts-ignore
+    const courses = useSelector((state) => state.courses.courses);
+    const dispatch = useDispatch();
     { /* @ts-ignore */ }
     const [newCourse, setNewCourse] = useState({ name: "", description: "" });
     const [editCourse, setEditCourse] = useState(null);
 
     { /* @ts-ignore */ }
     const handleAddCourse = () => {
-        const newAddedCourse = { _id: uuidv4(), ...newCourse };
-        // @ts-ignore
-        setCourses([...courses, newAddedCourse]);
-        setNewCourse({ name: "", description: "" }); // Reset form
+        // const newAddedCourse = { _id: uuidv4(), ...newCourse };
+        // // @ts-ignore
+        // setCourses([...courses, newAddedCourse]);
+        // setNewCourse({ name: "", description: "" }); // Reset form
+        dispatch(addCourse(newCourse));
     };
 
     { /* @ts-ignore */ }
     const handleDeleteCourse = (id) => {
-        setCourses(courses.filter(course => course._id !== id));
+        // setCourses(courses.filter(course => course._id !== id));
+        dispatch(deleteCourse(id));
     };
 
     { /* @ts-ignore */ }
@@ -356,12 +362,14 @@ export default function Dashboard() {
     const handleSaveCourse = () => {
         if (editCourse) {
             { /* @ts-ignore */ }
-            setCourses(courses.map((c) => (c._id === editCourse._id ? editCourse : c)));
+            // setCourses(courses.map((c) => (c._id === editCourse._id ? editCourse : c)));
+            dispatch(updateCourse(editCourse));
             setEditCourse(null);
         }
     };
 
 
+    // @ts-ignore
     return (
         <div id="wd-dashboard">
             <h1 id="wd-dashboard-title">Dashboard</h1>
@@ -393,6 +401,7 @@ export default function Dashboard() {
             <div id="wd-dashboard-courses">
                 { /* @ts-ignore */ }
                 <Row xs={1} md={5} className="g-4">
+                    {/*@ts-ignore*/}
                     {courses.map((course) => (
                         //@ts-ignore
                         <Col key={course._id} className="wd-dashboard-course" style={{ width: "300px" }}>
