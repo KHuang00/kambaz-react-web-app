@@ -89,6 +89,8 @@ export default function Profile() {
 
     const signout = () => {
         dispatch(setCurrentUser(null)); // Clears session
+        localStorage.removeItem("currentUser");
+        localStorage.removeItem("enrollments");
         navigate("/Kambaz/Account/Signin");
     };
 

@@ -1,10 +1,11 @@
 import Form from 'react-bootstrap/Form';
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "./reducer";
 import * as db from "../Database";
 import { Button } from "react-bootstrap";
+import {setEnrollments} from "../Courses/enrollmentsReducer.ts";
 
 export default function Signin() {
     const [credentials, setCredentials] = useState<any>({ username: "", password: "" });
@@ -12,7 +13,7 @@ export default function Signin() {
     const navigate = useNavigate();
 
     const signin = () => {
-        console.log("🛠 Attempting Login with:", credentials);
+        console.log(" Attempting Login with:", credentials);
 
         if (!credentials.username || !credentials.password) {
             alert(" Please enter both username and password.");
@@ -30,10 +31,36 @@ export default function Signin() {
 
         console.log("User Found:", user);
 
+        // dispatch(setCurrentUser(user));
+        // Set current user in Redux
         dispatch(setCurrentUser(user));
+
+        // Load and set enrollments for this user in Redux
+        const userEnrollments = db.enrollments
+            .filter((e) => e.user === user._id)
+            .map((e) => e.course);
+
+        dispatch(setEnrollments(userEnrollments));
+
+        // Persist login to localStorage
+        localStorage.setItem("currentUser", JSON.stringify(user));
+        localStorage.setItem("enrollments", JSON.stringify(userEnrollments));
 
         navigate("/Kambaz/Dashboard");
     };
+
+    // Auto-restore session if user was saved in localStorage
+    useEffect(() => {
+        const storedUser = localStorage.getItem("currentUser");
+        const storedEnrollments = localStorage.getItem("enrollments");
+
+        if (storedUser) {
+            dispatch(setCurrentUser(JSON.parse(storedUser)));
+        }
+        if (storedEnrollments) {
+            dispatch(setEnrollments(JSON.parse(storedEnrollments)));
+        }
+    }, [dispatch]);
 
 
 
