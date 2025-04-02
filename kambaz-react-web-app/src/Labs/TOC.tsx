@@ -128,6 +128,19 @@ export default function TOC() {
                         Lab 4
                     </Nav.Link>
                 </Nav.Item>
+                {/* @ts-ignore */}
+                <Nav.Item>
+                    {/* @ts-ignore */}
+                    <Nav.Link
+                        // @ts-ignore
+                        as={Link}
+                        to="/Labs/Lab5"
+                        // active={activeTab === "/Labs/Lab5"}
+                        active={activeTab.includes("Lab5")}
+                    >
+                        Lab 5
+                    </Nav.Link>
+                </Nav.Item>
 
                 {/* @ts-ignore */}
                 <Nav.Item>

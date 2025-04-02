@@ -13,3 +13,5 @@ createRoot(document.getElementById('root')!).render(
       </Provider>
   </StrictMode>,
 )
+
+// vite react: Npm run dev
