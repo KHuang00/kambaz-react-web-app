@@ -27,7 +27,7 @@ export default function Labs() {
                 <Route path="/" element={<Navigate to="AllLabs" replace />} />
 
                 {/* New Route to Display All Labs */}
-                <Route path="AllLabs" element={
+                <Route path="AllLabs/*" element={
                     <div>
                         <Lab1 />
                         <Lab2 />
