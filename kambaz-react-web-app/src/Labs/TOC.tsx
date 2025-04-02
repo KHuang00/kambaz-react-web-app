@@ -70,7 +70,7 @@ export default function TOC() {
                         // @ts-ignore
                         as={Link}
                         to="/Labs"
-                        active={activeTab === "/Labs/AllLabs"}
+                        active={activeTab === "/Labs/AllLabs/*"}
 
                     >
                         Labs
