@@ -13,9 +13,10 @@ import cors from 'cors';
 import Hello from './Hello.js';
 
 import Lab5 from './Lab5/index.js';
+import "dotenv/config";
 import session from "express-session";
-
-
+import UserRoutes from "./Kambaz/Users/routes.js";
+import CourseRoutes from "./Kambaz/Courses/routes.js";
 
 //server side
 const app = express()
@@ -23,6 +24,7 @@ const app = express()
 // http://localhost:4000 responds "Welcome to Full ..."
 
 // app.use(cors())
+
 
 app.use(
     cors({
@@ -45,9 +47,9 @@ if (process.env.NODE_ENV !== "development") {
     };
 }
 app.use(session(sessionOptions));
-
-
 app.use(express.json());
+UserRoutes(app);
+CourseRoutes(app);
 // app.use(cors({
 //     origin: 'http://localhost:5173',  // This should match the port React app is running on
 //     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowable methods

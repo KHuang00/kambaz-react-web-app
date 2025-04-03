@@ -71,11 +71,16 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setCurrentUser } from "./reducer";
 import { Form, Button, Container } from "react-bootstrap";
+import * as client from "./client";
 
 export default function Profile() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const currentUser = useSelector((state: any) => state.account.currentUser);
+    const updateProfile = async () => {
+        const updatedProfile = await client.updateUser(profile);
+        dispatch(setCurrentUser(updatedProfile));
+    };
 
     const [profile, setProfile] = useState(currentUser || {});
 
@@ -87,7 +92,8 @@ export default function Profile() {
         setProfile({ ...profile, [e.target.id]: e.target.value });
     };
 
-    const signout = () => {
+    const signout = async () => {
+        await client.signout();
         dispatch(setCurrentUser(null)); // Clears session
         localStorage.removeItem("currentUser");
         localStorage.removeItem("enrollments");
@@ -143,8 +149,12 @@ export default function Profile() {
                         <option value="STUDENT">Student</option>
                     </Form.Select>
                 </Form.Group>
+                <br/>
+                {/* @ts-ignore*/}
+                <button onClick={updateProfile} className="btn btn-primary w-100 mb-2"> Update </button>
                 {/* @ts-ignore*/}
                 <Button variant="danger" onClick={signout} className="w-100 mt-3">Sign Out</Button>
+
             </Form>
         </Container>
     );

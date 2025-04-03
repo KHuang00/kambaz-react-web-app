@@ -6,13 +6,14 @@ import { setCurrentUser } from "./reducer";
 import * as db from "../Database";
 import { Button } from "react-bootstrap";
 import {setEnrollments} from "../Courses/enrollmentsReducer.ts";
+import * as client from "./client";
 
 export default function Signin() {
     const [credentials, setCredentials] = useState<any>({ username: "", password: "" });
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const signin = () => {
+    const signin = async () => {
         console.log(" Attempting Login with:", credentials);
 
         if (!credentials.username || !credentials.password) {
@@ -20,9 +21,11 @@ export default function Signin() {
             return;
         }
 
-        const user = db.users.find((u) =>
-            u.username === credentials.username && u.password === credentials.password
-        );
+        // const user = db.users.find((u) =>
+        //     u.username === credentials.username && u.password === credentials.password
+        // );
+
+        const user =  await client.signin(credentials);
 
         if (!user) {
             alert(" Invalid username or password.");

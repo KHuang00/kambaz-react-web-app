@@ -73,20 +73,36 @@ import Dashboard from "./Dashboard";
 import KambazNavigation from "./Navigation";
 import Courses from "./Courses";
 import "./index.css";
-import * as db from "./Database";
-import { useState } from "react";
+// import * as db from "./Database";
+import {useEffect, useState} from "react";
 import { v4 as uuidv4 } from "uuid";
 import ProtectedRoute from "./Account/ProtectedRoute.tsx";
-
+import Session from "./Account/Session.tsx";
+import * as userClient from "./Account/client.ts";
+import {useSelector} from "react-redux";
 
 export default function Kambaz() {
     // @ts-ignore
-    const [courses, setCourses] = useState<any[]>(db.courses);
+    const [courses, setCourses] = useState<any[]>([]);
     // @ts-ignore
     const [course, setCourse] = useState<any>({
         _id: "1234", name: "New Course", number: "New Number",
         startDate: "2023-09-10", endDate: "2023-12-15", description: "New Description",
     });
+
+    const { currentUser } = useSelector((state: any) => state.account);
+    const fetchCourses = async () => {
+        try {
+            const courses = await userClient.findMyCourses();
+            setCourses(courses);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    useEffect(() => {
+        fetchCourses();
+    }, [currentUser]);
+
 
     // @ts-ignore
     const addNewCourse = () => {
@@ -112,7 +128,8 @@ export default function Kambaz() {
     };
 
     return (
-        <div id="wd-kambaz">
+        <Session>
+            <div id="wd-kambaz">
             {/* @ts-ignore */}
             <KambazNavigation />
             <div className="wd-main-content-offset p-3">
@@ -148,5 +165,7 @@ export default function Kambaz() {
                 </Routes>
             </div>
         </div>
+        </Session>
+
     );
 }

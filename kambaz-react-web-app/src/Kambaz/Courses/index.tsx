@@ -104,7 +104,7 @@
 // import { FaChevronDown, FaChevronUp, FaAlignJustify } from "react-icons/fa";
 // import { Navigate, Route, Routes, useParams, useLocation } from "react-router";
 // import { useSelector } from "react-redux"; // Import Redux state
-// import { courses as allCourses, enrollments } from "../Database/index.tsx";
+// import { courses as allCourses, enrollments } from "../Database/index.js";
 // import CoursesNavigation from "./Navigations";
 // import Modules from "./Modules";
 // import Home from "./Home";
