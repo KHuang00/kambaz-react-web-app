@@ -12,7 +12,7 @@ import cors from 'cors';
 //5.1.8
 import Hello from './Hello.js';
 
-import Lab5 from './Lab5/index.js';
+import Lab5 from './Lab5/l5index.js';
 
 
 
@@ -42,4 +42,4 @@ Hello(app)
 
 app.listen(process.env.PORT ||4000)
 
-//start with log :nodemon  index.js
+//start with log :nodemon  l5index.js
