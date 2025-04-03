@@ -13,6 +13,7 @@ import cors from 'cors';
 import Hello from './Hello.js';
 
 import Lab5 from './Lab5/index.js';
+import session from "express-session";
 
 
 
@@ -30,6 +31,14 @@ app.use(
     })
 );
 
+const sessionOptions = {
+    secret: "any string",
+    resave: false,
+    saveUninitialized: false,
+};
+app.use(
+    session(sessionOptions)
+);
 
 app.use(express.json());
 // app.use(cors({
