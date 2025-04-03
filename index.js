@@ -12,7 +12,7 @@ import cors from 'cors';
 //5.1.8
 import Hello from './Hello.js';
 
-import Lab5 from './Lab5/index.js';
+import Lab5 from './src/Lab5/index.js';
 
 
 
