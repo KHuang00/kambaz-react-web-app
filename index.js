@@ -21,7 +21,15 @@ const app = express()
 // http://localhost:4000/hello responds "Life is good"
 // http://localhost:4000 responds "Welcome to Full ..."
 
-app.use(cors())
+// app.use(cors())
+
+app.use(
+    cors({
+        credentials: true,
+        origin: process.env.NETLIFY_URL || "http://localhost:5173",
+    })
+);
+
 
 app.use(express.json());
 // app.use(cors({
