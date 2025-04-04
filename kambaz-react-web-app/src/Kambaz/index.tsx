@@ -74,12 +74,14 @@ import KambazNavigation from "./Navigation";
 import Courses from "./Courses";
 import "./index.css";
 // import * as db from "./Database";
-import {useEffect, useState} from "react";
-import { v4 as uuidv4 } from "uuid";
+// import {useEffect, useState} from "react";
+// import { v4 as uuidv4 } from "uuid";
 import ProtectedRoute from "./Account/ProtectedRoute.tsx";
 import Session from "./Account/Session.tsx";
 import * as userClient from "./Account/client.ts";
 import {useSelector} from "react-redux";
+import {useEffect, useState} from "react";
+import * as courseClient from "./Courses/client";
 
 export default function Kambaz() {
     // @ts-ignore
@@ -105,19 +107,27 @@ export default function Kambaz() {
 
 
     // @ts-ignore
-    const addNewCourse = () => {
-        setCourses([...courses, { ...course, _id: uuidv4() }]);
+    const addNewCourse = async () => {
+        const newCourse = await userClient.createCourse(course);
+        setCourses([...courses, { ...course, newCourse }]);
     };
 
     // @ts-ignore
-    const deleteCourse = (courseId: any) => {
-        setCourses(courses.filter((course) => course._id !== courseId));
+    const deleteCourse = async (courseId: string) => {
+
+        try {
+            await courseClient.deleteCourse(courseId);
+            setCourses(courses.filter((course: { _id: any; }) => course._id !== courseId));
+        } catch (error) {
+            console.error('Error deleting course:', error);
+        }
     };
 
     // @ts-ignore
-    const updateCourse = () => {
+    const updateCourse = async () => {
+        await courseClient.updateCourse(course);
         setCourses(
-            courses.map((c) => {
+            courses.map((c: { _id: any; }) => {
                 if (c._id === course._id) {
                     return { ...course, _id: c._id };
                 } else {

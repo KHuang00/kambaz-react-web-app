@@ -28,6 +28,7 @@
 import * as dao from "./dao.js";
 import * as courseDao from "../Courses/dao.js";
 import express from 'express';
+import * as enrollmentsDao from "../Enrollments/dao.js";
 
 // let currentUser = null;
 const app = express();
@@ -161,6 +162,13 @@ export default function UserRoutes(app) {
         const courses = courseDao.findCoursesForEnrolledUser(userId);
         res.json(courses);
     };
+    const createCourse = (req, res) => {
+        const currentUser = req.session["currentUser"];
+        const newCourse = courseDao.createCourse(req.body);
+        enrollmentsDao.enrollUserInCourse(currentUser._id, newCourse._id);
+        res.json(newCourse);
+    };
+
 
 
     // Register routes
@@ -174,4 +182,5 @@ export default function UserRoutes(app) {
     app.post("/api/users/signout", signout);
     app.get("/api/users/profile", profile);
     app.get("/api/users/:userId/courses", findCoursesForEnrolledUser);
+    app.post("/api/users/current/courses", createCourse);
 };

@@ -302,9 +302,11 @@ import { BsGripVertical } from "react-icons/bs";
 import ModulesControls from "./ModulesControls";
 import LessonControlButtons from "./LessonControlButtons";
 import ModuleControlButtons from "./ModuleControlButtons";
-import { addModule, editModule, updateModule, deleteModule } from "./reducer";
+import * as coursesClient from "../client";
+import { setModules, addModule, editModule, updateModule, deleteModule } from "./reducer";
 import "./index.css";
-import {useState} from "react";
+import {useState, useEffect} from "react";
+import * as modulesClient from "./client";
 
 export default function Modules() {
     const { courseId } = useParams();
@@ -341,6 +343,35 @@ export default function Modules() {
         return <div className="text-muted">Loading user data...</div>;
     }
 
+    const fetchModules = async () => {
+        const modules = await coursesClient.findModulesForCourse(courseId as string);
+        dispatch(setModules(modules));
+    };
+
+    const createModuleForCourse = async () => {
+        if (!courseId) return;
+        const newModule = { name: moduleName, course: courseId };
+        const module = await coursesClient.createModuleForCourse(courseId, newModule);
+        dispatch(addModule(module));
+    };
+
+    const removeModule = async (moduleId: string) => {
+        await modulesClient.deleteModule(moduleId);
+        dispatch(deleteModule(moduleId));
+    };
+
+    const saveModule = async (module: any) => {
+        await modulesClient.updateModule(module);
+        dispatch(updateModule(module));
+    };
+
+
+
+    useEffect(() => {
+        fetchModules();
+    }, []);
+
+
     return (
         <div className="container-fluid">
             {/*// @ts-ignore*/}
@@ -348,9 +379,11 @@ export default function Modules() {
                 moduleName={moduleName}
                 setModuleName={setModuleName}
                 // @ts-ignore
-                addModule={(moduleName) => {
-                    dispatch(addModule({ name: moduleName, course: courseId }));
-                }}
+                // addModule={(moduleName) => {
+                //     dispatch(addModule({ name: moduleName, course: courseId }));
+                // }}
+                deleteModule={(moduleId) => removeModule(moduleId)}
+                addModule={createModuleForCourse}
             />
             <br /><br /><br /><br />
 
@@ -371,7 +404,8 @@ export default function Modules() {
                                         onChange={(e) => dispatch(updateModule({ ...module, name: e.target.value }))}
                                         onKeyDown={(e) => {
                                             if (e.key === "Enter") {
-                                                dispatch(updateModule({ ...module, editing: false }));
+                                                // dispatch(updateModule({ ...module, editing: false }));
+                                                saveModule({ ...module, editing: false });
                                             }
                                         }}
                                     />

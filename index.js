@@ -17,6 +17,8 @@ import "dotenv/config";
 import session from "express-session";
 import UserRoutes from "./Kambaz/Users/routes.js";
 import CourseRoutes from "./Kambaz/Courses/routes.js";
+import ModuleRoutes from "./Kambaz/Modules/routes.js";
+import AssignmentsRoutes from "./Kambaz/Assignment/routes.js";
 
 //server side
 const app = express()
@@ -50,6 +52,8 @@ app.use(session(sessionOptions));
 app.use(express.json());
 UserRoutes(app);
 CourseRoutes(app);
+ModuleRoutes(app);
+AssignmentsRoutes(app);
 // app.use(cors({
 //     origin: 'http://localhost:5173',  // This should match the port React app is running on
 //     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowable methods
