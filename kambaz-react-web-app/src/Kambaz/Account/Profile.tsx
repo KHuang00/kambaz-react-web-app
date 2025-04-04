@@ -77,16 +77,18 @@ export default function Profile() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const currentUser = useSelector((state: any) => state.account.currentUser);
+
+
+    useEffect(() => {
+        if (!currentUser) navigate("/Kambaz/Account/Signin");
+    }, [currentUser, navigate]);
+
     const updateProfile = async () => {
         const updatedProfile = await client.updateUser(profile);
         dispatch(setCurrentUser(updatedProfile));
     };
 
     const [profile, setProfile] = useState(currentUser || {});
-
-    useEffect(() => {
-        if (!currentUser) navigate("/Kambaz/Account/Signin");
-    }, [currentUser, navigate]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setProfile({ ...profile, [e.target.id]: e.target.value });

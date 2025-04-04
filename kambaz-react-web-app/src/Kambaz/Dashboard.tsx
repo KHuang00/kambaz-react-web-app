@@ -359,9 +359,16 @@ export default function Dashboard() {
         // setNewCourse({ name: "", description: "" }); // Reset form
 
         // dispatch(addCourse(newCourse));
-        if (!newCourse.name.trim()) return;
+        if (!newCourse.name.trim()) {
+            console.log("Course name is required.");
+            alert("Please enter a course name and description.");
+            return;
+        }
+        alert("Course created!")
+        console.log("Dispatching addCourse with:", newCourse); // Debug log
         dispatch(addCourse(newCourse));
         setNewCourse({ name: "", description: "" });
+
     };
 
     { /* @ts-ignore */ }
