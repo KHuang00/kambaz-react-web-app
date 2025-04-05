@@ -324,7 +324,7 @@ export default function Modules() {
     }
 
     // @ts-ignore
-    const modules = useSelector((state:any) => state.modulesReducer?.modules || []);
+    const modules = useSelector((state:any) => state.modules?.modules || []);
 
     console.log("Current User:", currentUser);
     console.log("Current `courseId` from `useParams()`:", courseId);

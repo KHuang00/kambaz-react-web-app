@@ -354,10 +354,11 @@ import {FaPlus, FaRegFileAlt, FaSearch, FaFolderPlus, FaCheckCircle} from "react
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {deleteAssignment} from "./reducer";
+import {addAssignment, deleteAssignment, setAssignment} from "./reducer";
 // import {useEffect} from "react";
 // import { assignments as dbAssignments } from "../../Database";
-
+import * as assignmentsClient from "./client";
+import {useEffect} from "react";
 
 
 export default function Assignments() {
@@ -369,6 +370,17 @@ export default function Assignments() {
     //     dispatch(setAssignments(dbAssignments));
     // }, [dispatch]);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const assignmentsData = await assignmentsClient.fetchAssignmentsForModule(courseId as string);
+                dispatch(setAssignment(assignmentsData));
+            } catch (error) {
+                console.error("Error fetching assignments:", error);
+            }
+        };
+        fetchData();
+    }, [courseId, dispatch]);
     //@ts-ignore
     console.log("Redux Assignments Before useSelector:", useSelector((state) => state.assignments));
     //@ts-ignore
@@ -382,17 +394,17 @@ export default function Assignments() {
     const courseAssignments = assignments.filter(a => a.course === courseId);
 
     // Handle Add Assignment
-    // const handleAddAssignment = () => {
-    //     const newAssignment = {
-    //         _id: `${Date.now()}`,
-    //         course: courseId,
-    //         title: "New Assignment",
-    //         description: "Enter details here...",
-    //         detail: { module: "Module X", start: "TBA", due: "TBA", points: "0 pts" },
-    //     };
-    //     dispatch(addAssignment(newAssignment));
-    //     navigate(`/Kambaz/Courses/${courseId}/Assignments/${newAssignment._id}`);
-    // };
+    const handleAddAssignment = () => {
+        const newAssignment = {
+            _id: `${Date.now()}`,
+            course: courseId,
+            title: "New Assignment",
+            description: "Enter details here...",
+            detail: { module: "Module X", start: "TBA", due: "TBA", points: "0 pts" },
+        };
+        dispatch(addAssignment(newAssignment));
+        navigate(`/Kambaz/Courses/${courseId}/Assignments/${newAssignment._id}`);
+    };
     console.log("Redux Assignments:", assignments);
     console.log("Course ID from URL:", courseId);
     console.log("Filtered Assignments:", courseAssignments);
@@ -462,7 +474,8 @@ export default function Assignments() {
                         <FaFolderPlus className="me-1" /> Add Group
                     </button>
                     <button className="btn btn-danger d-flex align-items-center" onClick={() => {
-                        navigate(`/Kambaz/Courses/${courseId}/Assignments/new`)
+                        // navigate(`/Kambaz/Courses/${courseId}/Assignments/new`)
+                        handleAddAssignment()
                     }}>
                         <FaPlus className="me-1" /> Add Assignment
                     </button>

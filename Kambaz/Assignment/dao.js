@@ -9,7 +9,7 @@ export function createAssignment(assignment) {
 
 export function findAssignmentsForModule(moduleId) {
     const { assignments } = Database;
-    return assignments.filter((assignment) => assignment._id === moduleId);
+    return assignments.filter((assignment) => assignment.course === moduleId);
 }
 
 export function updateAssignment(assignmentId, assignmentUpdates) {
