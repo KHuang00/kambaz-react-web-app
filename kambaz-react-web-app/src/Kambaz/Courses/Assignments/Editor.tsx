@@ -291,46 +291,97 @@ export default function AssignmentEditor() {
             return { ...prev, onlineEntryOptions: updated };
         });
     };
+    //
+    // const handleSave = () => {
+    //     if (isNew) {
+    //         // When adding a new assignment
+    //         const newAssignment = {
+    //             // Generate unique ID
+    //             _id: new Date().getTime().toString(),
+    //             title: formData.title,
+    //             description: formData.description,
+    //             course: courseId,
+    //             points: 100,
+    //             dueDate: formData.due,
+    //             availableFrom: formData.availableFrom,
+    //             availableUntil: formData.until,
+    //         };
+    //
+    //         dispatch(addAssignment(newAssignment));
+    //     } else {
+    //         dispatch(
+    //             updateAssignment({
+    //                 ...assignment,
+    //                 title: formData.title,
+    //                 description: formData.description,
+    //                 detail: {
+    //                     ...assignment.detail,
+    //                     start: formData.availableFrom,
+    //                     due: formData.due,
+    //                     points: assignment.detail.points,
+    //                     module: assignment.detail.module,
+    //                 },
+    //                 submissionType: formData.submissionType,
+    //                 onlineEntryOptions: formData.onlineEntryOptions,
+    //                 assignTo: formData.assignTo,
+    //                 until: formData.until,
+    //             })
+    //         );
+    //     }
+    //
+    //     navigate(`/Kambaz/Courses/${courseId}/Assignments`);
+    // };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (isNew) {
-            // When adding a new assignment
             const newAssignment = {
-                // Generate unique ID
-                _id: new Date().getTime().toString(),
                 title: formData.title,
                 description: formData.description,
                 course: courseId,
-                points: 100,
-                dueDate: formData.due,
-                availableFrom: formData.availableFrom,
-                availableUntil: formData.until,
+                submissionType: formData.submissionType,
+                onlineEntryOptions: formData.onlineEntryOptions,
+                assignTo: formData.assignTo,
+                until: formData.until,
+                detail: {
+                    points: "0 pts",
+                    module: "Module X",
+                    start: formData.availableFrom,
+                    due: formData.due,
+                },
             };
 
-            dispatch(addAssignment(newAssignment));
+            const created = await assignmentsClient.createAssignment(courseId as string, newAssignment);
+            dispatch(addAssignment(created)); // Save to Redux
+            navigate(`/Kambaz/Courses/${courseId}/Assignments/${created._id}`);
         } else {
-            dispatch(
-                updateAssignment({
-                    ...assignment,
-                    title: formData.title,
-                    description: formData.description,
-                    detail: {
-                        ...assignment.detail,
-                        start: formData.availableFrom,
-                        due: formData.due,
-                        points: assignment.detail.points,
-                        module: assignment.detail.module,
-                    },
-                    submissionType: formData.submissionType,
-                    onlineEntryOptions: formData.onlineEntryOptions,
-                    assignTo: formData.assignTo,
-                    until: formData.until,
-                })
-            );
-        }
+            const updatedAssignment = {
+                ...assignment,
+                title: formData.title,
+                description: formData.description,
+                submissionType: formData.submissionType,
+                onlineEntryOptions: formData.onlineEntryOptions,
+                assignTo: formData.assignTo,
+                until: formData.until,
+                detail: {
+                    ...assignment?.detail,
+                    start: formData.availableFrom,
+                    due: formData.due,
+                    points: assignment?.detail?.points ?? "0 pts",
+                    module: assignment?.detail?.module ?? "Module X",
+                },
+            };
 
-        navigate(`/Kambaz/Courses/${courseId}/Assignments`);
+            await assignmentsClient.updateAssignment(
+                courseId as string,
+                assignmentId as string,
+                updatedAssignment
+            );
+
+            dispatch(updateAssignment(updatedAssignment)); // Update in Redux
+            navigate(`/Kambaz/Courses/${courseId}/Assignments`);
+        }
     };
+
 
     if (!isNew && !assignment) {
         return (

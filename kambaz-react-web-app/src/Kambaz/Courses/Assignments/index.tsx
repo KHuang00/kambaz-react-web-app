@@ -415,6 +415,16 @@ export default function Assignments() {
     console.log("Course ID from URL:", courseId);
     console.log("Filtered Assignments:", courseAssignments);
 
+    const handleDeleteAssignment = async (assignmentId: string) => {
+        try {
+            await assignmentsClient.deleteAssignment(courseId as string, assignmentId);
+            dispatch(deleteAssignment(assignmentId));
+        } catch (error) {
+            console.error("Error deleting assignment:", error);
+            alert("Failed to delete assignment.");
+        }
+    }
+
 
     // return (
     //     <div className="container mt-4">
@@ -519,7 +529,8 @@ export default function Assignments() {
                                             <FaCheckCircle className="text-success fs-5" title="Saved" />
                                             <button
                                                 className="btn btn-sm btn-danger"
-                                                onClick={() => dispatch(deleteAssignment(item._id))}
+                                                // onClick={() => dispatch(deleteAssignment(item._id))}
+                                                onClick={() => handleDeleteAssignment(item._id)}
                                             >
                                                 Delete
                                             </button>

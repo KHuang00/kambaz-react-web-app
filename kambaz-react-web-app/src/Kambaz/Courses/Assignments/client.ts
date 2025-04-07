@@ -19,11 +19,14 @@ export const fetchAssignmentsForModule = async (courseId : string) => {
     return response.data;
 };
 
-export const updateAssignment = async (courseId : string, assignmentId : string) => {
-
-    const response = await axiosWithCredentials.put(`${COURSES_API}/${courseId}/Assignments/${assignmentId}`);
+export const updateAssignment = async (courseId: string, assignmentId: string, data: any) => {
+    const response = await axiosWithCredentials.put(
+        `${COURSES_API}/${courseId}/Assignments/${assignmentId}`,
+        data
+    );
     return response.data;
 };
+
 
 export const deleteAssignment = async (courseId : string,assignmentId:string) => {
 
