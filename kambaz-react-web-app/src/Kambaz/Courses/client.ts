@@ -28,3 +28,9 @@ export const createModuleForCourse = async (courseId: string, module: any) => {
     );
     return response.data;
 };
+
+export const createCourse = async (course: any) => {
+    const { data } = await axiosWithCredentials.post(`${COURSES_API}`, course);
+    return data;
+};
+

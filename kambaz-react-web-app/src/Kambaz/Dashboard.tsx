@@ -302,16 +302,17 @@
 //     );
 // }
 
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { useSelector, useDispatch} from "react-redux";
 import { Link } from "react-router-dom";
 import { Card, Row, Col, Button } from "react-bootstrap";
 // import * as db from "./Database";
 // import { v4 as uuidv4 } from "uuid";
 import "./index.css";
-import {addCourse, deleteCourse, updateCourse} from "./Courses/reducer.ts";
-import { enroll, unenroll } from "./Courses/enrollmentsReducer.ts";
-
+import {addCourse, deleteCourse, setCourses, updateCourse} from "./Courses/reducer.ts";
+import {enroll, setEnrollments, unenroll} from "./Courses/enrollmentsReducer.ts";
+import * as enrollmentsClient from "../Kambaz/Courses/enrollmentsClient";
+import * as coursesClient from "../Kambaz/Courses/client.ts";
 
 export default function Dashboard() {
 
@@ -345,6 +346,23 @@ export default function Dashboard() {
     const [showAllCourses, setShowAllCourses] = useState(false);
 
     const isFaculty = currentUser?.role === "FACULTY";
+    const userId = currentUser?._id;
+
+    // Fetch enrollments on initial load
+    useEffect(() => {
+        enrollmentsClient.fetchUserEnrollments(userId)
+            .then((data) => {
+                if (Array.isArray(data)) {
+                    const enrolledIds = data.map(e => e.course);
+                    dispatch(setEnrollments(enrolledIds));
+                } else {
+                    console.error("Unexpected enrollments response:", data);
+                    dispatch(setEnrollments([]));
+                }
+            })
+            .catch((err) => console.error("Error fetching enrollments:", err));
+    }, [userId, dispatch]);
+
 
     const visibleCourses = showAllCourses
         ? courses
@@ -352,7 +370,7 @@ export default function Dashboard() {
 
 
     { /* @ts-ignore */ }
-    const handleAddCourse = () => {
+    const handleAddCourse = async () => {
         // const newAddedCourse = { _id: uuidv4(), ...newCourse };
         // // @ts-ignore
         // setCourses([...courses, newAddedCourse]);
@@ -364,10 +382,14 @@ export default function Dashboard() {
             alert("Please enter a course name and description.");
             return;
         }
-        alert("Course created!")
-        console.log("Dispatching addCourse with:", newCourse); // Debug log
-        dispatch(addCourse(newCourse));
-        setNewCourse({ name: "", description: "" });
+        // alert("Course created!")
+        // console.log("Dispatching addCourse with:", newCourse); // Debug log
+        // dispatch(addCourse(newCourse));
+        // setNewCourse({ name: "", description: "" });
+        const createdCourse = await coursesClient.createCourse(newCourse);
+        dispatch(addCourse(createdCourse));
+        alert("Course created and saved to backend!");
+        setNewCourse({name: "", description: ""});
 
     };
 
@@ -391,98 +413,33 @@ export default function Dashboard() {
         }
     };
 
-    const toggleEnrollment = (id: any) => {
-        if (enrolledCourseIds.includes(id)) {
-            dispatch(unenroll(id));
-        } else {
-            dispatch(enroll(id));
+    const handleEnroll = async (courseId: string) => {
+        try {
+            await enrollmentsClient.enrollUser(userId, courseId);
+            dispatch(enroll(courseId));
+            alert("Enrolled successfully!");
+            const updatedCourses = await coursesClient.fetchAllCourses();
+            dispatch(setCourses(updatedCourses));
+        } catch (error) {
+            console.error("Enrollment error:", error);
+            alert("Enrollment failed.");
         }
     };
 
+    const handleUnenroll = async (courseId: string) => {
+        try {
+            await enrollmentsClient.unenrollUser(userId, courseId);
+            dispatch(unenroll(courseId));
+            alert("Unenrolled successfully!");
+        } catch (error) {
+            console.error("Unenrollment error:", error);
+            alert("Unenrollment failed.");
+        }
+    };
 
     // @ts-ignore
     return (
-        // <div id="wd-dashboard">
-        //     <h1 id="wd-dashboard-title">Dashboard</h1>
-        //     <hr />
-        //     <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2>
-        //     <hr />
-        //
-        //     <div className="mb-3">
-        //         <input
-        //             type="text"
-        //             placeholder="Course Name"
-        //             className="form-control mb-2"
-        //             value={newCourse.name}
-        //             onChange={(e) => setNewCourse({ ...newCourse, name: e.target.value })}
-        //         />
-        //         <input
-        //             type="text"
-        //             placeholder="Course Description"
-        //             className="form-control mb-2"
-        //             value={newCourse.description}
-        //             onChange={(e) => setNewCourse({ ...newCourse, description: e.target.value })}
-        //         />
-        //         {/* @ts-ignore*/}
-        //         <Button variant="success" onClick={handleAddCourse}>
-        //             Add Course
-        //         </Button>
-        //     </div>
-        //
-        //     <div id="wd-dashboard-courses">
-        //         { /* @ts-ignore */ }
-        //         <Row xs={1} md={5} className="g-4">
-        //             {/*@ts-ignore*/}
-        //             {courses.map((course) => (
-        //                 //@ts-ignore
-        //                 <Col key={course._id} className="wd-dashboard-course" style={{ width: "300px" }}>
-        //                     { /* @ts-ignore */ }
-        //                     <Card>{ /* @ts-ignore */ }
-        //                         <Card.Body className="card-body">{ /* @ts-ignore */ }
-        //                             <Card.Title className="wd-dashboard-course-title text-center">
-        //                                 {/*// @ts-ignore*/}
-        //                                 {editCourse && editCourse._id === course._id ? (
-        //                                     <input
-        //                                         type="text"
-        //                                         // @ts-ignore
-        //                                         value={editCourse.name}
-        //                                         // @ts-ignore
-        //                                         onChange={(e) => setEditCourse({ ...editCourse, name: e.target.value })}
-        //                                     />
-        //                                 ) : (
-        //                                     course.name
-        //                                 )}
-        //                             </Card.Title>
-        //                             <Link to={`/Kambaz/Courses/${course._id}/Home`} className="wd-dashboard-course-link text-decoration-none text-center text-dark">{ /* @ts-ignore */ }
-        //                                 <Card.Img src="/images/reactjs.jpg" variant="top" width="100%" height={160} />
-        //                             </Link>{ /* @ts-ignore */ }
-        //                             <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>
-        //                                 {course.description}
-        //                             </Card.Text>
-        //                             <div className="d-flex justify-content-between">
-        //                                 <Link to={`/Kambaz/Courses/${course._id}/Home`} className="btn btn-primary">
-        //                                     Go
-        //                                 </Link>{ /* @ts-ignore */ }
-        //                                 {editCourse && editCourse._id === course._id ? (
-        //                                     <button className="btn btn-success float-end me-2" onClick={handleSaveCourse}>
-        //                                         Save
-        //                                     </button>
-        //                                 ) : (
-        //                                     <button className="btn btn-warning float-end me-2" onClick={() => handleEditCourse(course)}>
-        //                                         Edit
-        //                                     </button>
-        //                                 )}{ /* @ts-ignore */ }
-        //                                 <Button variant="danger" onClick={() => handleDeleteCourse(course._id)}>
-        //                                     Delete
-        //                                 </Button>
-        //                             </div>
-        //                         </Card.Body>
-        //                     </Card>
-        //                 </Col>
-        //             ))}
-        //         </Row>
-        //     </div>
-        // </div>
+
 
         <div id="wd-dashboard">
             <h1 id="wd-dashboard-title">Dashboard</h1>
@@ -594,9 +551,14 @@ export default function Dashboard() {
                                             //@ts-ignore
                                             <Button
                                                 variant={enrolledCourseIds.includes(course._id) ? "danger" : "success"}
-                                                onClick={() => toggleEnrollment(course._id)}
+                                                onClick={() =>
+                                                    enrolledCourseIds.includes(course._id)
+                                                        ? handleUnenroll(course._id)
+                                                        : handleEnroll(course._id)
+                                                }
                                             >
                                                 {enrolledCourseIds.includes(course._id) ? "Unenroll" : "Enroll"}
+
                                             </Button>
                                         )}
                                     </div>
@@ -607,6 +569,88 @@ export default function Dashboard() {
                 </Row>
             </div>
         </div>
+
+        // <div id="wd-dashboard">
+        //     <h1 id="wd-dashboard-title">Dashboard</h1>
+        //     <hr />
+        //     <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2>
+        //     <hr />
+        //
+        //     <div className="mb-3">
+        //         <input
+        //             type="text"
+        //             placeholder="Course Name"
+        //             className="form-control mb-2"
+        //             value={newCourse.name}
+        //             onChange={(e) => setNewCourse({ ...newCourse, name: e.target.value })}
+        //         />
+        //         <input
+        //             type="text"
+        //             placeholder="Course Description"
+        //             className="form-control mb-2"
+        //             value={newCourse.description}
+        //             onChange={(e) => setNewCourse({ ...newCourse, description: e.target.value })}
+        //         />
+        //         {/* @ts-ignore*/}
+        //         <Button variant="success" onClick={handleAddCourse}>
+        //             Add Course
+        //         </Button>
+        //     </div>
+        //
+        //     <div id="wd-dashboard-courses">
+        //         { /* @ts-ignore */ }
+        //         <Row xs={1} md={5} className="g-4">
+        //             {/*@ts-ignore*/}
+        //             {courses.map((course) => (
+        //                 //@ts-ignore
+        //                 <Col key={course._id} className="wd-dashboard-course" style={{ width: "300px" }}>
+        //                     { /* @ts-ignore */ }
+        //                     <Card>{ /* @ts-ignore */ }
+        //                         <Card.Body className="card-body">{ /* @ts-ignore */ }
+        //                             <Card.Title className="wd-dashboard-course-title text-center">
+        //                                 {/*// @ts-ignore*/}
+        //                                 {editCourse && editCourse._id === course._id ? (
+        //                                     <input
+        //                                         type="text"
+        //                                         // @ts-ignore
+        //                                         value={editCourse.name}
+        //                                         // @ts-ignore
+        //                                         onChange={(e) => setEditCourse({ ...editCourse, name: e.target.value })}
+        //                                     />
+        //                                 ) : (
+        //                                     course.name
+        //                                 )}
+        //                             </Card.Title>
+        //                             <Link to={`/Kambaz/Courses/${course._id}/Home`} className="wd-dashboard-course-link text-decoration-none text-center text-dark">{ /* @ts-ignore */ }
+        //                                 <Card.Img src="/images/reactjs.jpg" variant="top" width="100%" height={160} />
+        //                             </Link>{ /* @ts-ignore */ }
+        //                             <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>
+        //                                 {course.description}
+        //                             </Card.Text>
+        //                             <div className="d-flex justify-content-between">
+        //                                 <Link to={`/Kambaz/Courses/${course._id}/Home`} className="btn btn-primary">
+        //                                     Go
+        //                                 </Link>{ /* @ts-ignore */ }
+        //                                 {editCourse && editCourse._id === course._id ? (
+        //                                     <button className="btn btn-success float-end me-2" onClick={handleSaveCourse}>
+        //                                         Save
+        //                                     </button>
+        //                                 ) : (
+        //                                     <button className="btn btn-warning float-end me-2" onClick={() => handleEditCourse(course)}>
+        //                                         Edit
+        //                                     </button>
+        //                                 )}{ /* @ts-ignore */ }
+        //                                 <Button variant="danger" onClick={() => handleDeleteCourse(course._id)}>
+        //                                     Delete
+        //                                 </Button>
+        //                             </div>
+        //                         </Card.Body>
+        //                     </Card>
+        //                 </Col>
+        //             ))}
+        //         </Row>
+        //     </div>
+        // </div>
     );
 }
 

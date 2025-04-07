@@ -343,10 +343,21 @@ export default function Modules() {
         return <div className="text-muted">Loading user data...</div>;
     }
 
+    const enrolledCourseIds = useSelector((state:any) => state.enrollments?.enrollments || []);
+
+
+
     const fetchModules = async () => {
-        const modules = await coursesClient.findModulesForCourse(courseId as string);
-        dispatch(setModules(modules));
+        try {
+            // @ts-ignore
+            const response = await coursesClient.findModulesForCourse(courseId);
+            console.log("Fetched modules from backend:", response);
+            dispatch(setModules(response));
+        } catch (e) {
+            console.error("Failed to fetch modules:", e);
+        }
     };
+
 
     const createModuleForCourse = async () => {
         if (!courseId) return;
@@ -367,9 +378,15 @@ export default function Modules() {
 
 
 
+    // useEffect(() => {
+    //     fetchModules();
+    // }, []);
     useEffect(() => {
-        fetchModules();
-    }, []);
+        if (courseId && enrolledCourseIds.includes(courseId)) {
+            fetchModules();
+        }
+    }, [courseId, enrolledCourseIds.join(",")]);
+
 
 
     return (

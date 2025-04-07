@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import modulesReducer from "./Courses/Modules/reducer";
 import accountReducer from "./Account/reducer";
-import enrollmentReducer from './enrollment_reducer.ts';
+// import enrollmentReducer from './enrollment_reducer.ts';
 import courseReducer from "../Kambaz/Courses/reducer";
 import enrollmentsReducer from "./Courses/enrollmentsReducer.ts";
 // @ts-ignore
@@ -12,7 +12,7 @@ const store = configureStore({
         courses: courseReducer,
         modules: modulesReducer,
         assignments: assignmentsReducer,
-        enrollment: enrollmentReducer,
+        // enrollment: enrollmentReducer,
         enrollments: enrollmentsReducer
 
     },

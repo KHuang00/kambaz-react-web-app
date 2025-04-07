@@ -393,6 +393,7 @@ export default function Assignments() {
     // @ts-ignore
     const courseAssignments = assignments.filter(a => a.course === courseId);
 
+
     // Handle Add Assignment
     const handleAddAssignment = () => {
         const newAssignment = {

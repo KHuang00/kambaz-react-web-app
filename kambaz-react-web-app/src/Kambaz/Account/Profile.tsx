@@ -79,9 +79,16 @@ export default function Profile() {
     const currentUser = useSelector((state: any) => state.account.currentUser);
 
 
-    useEffect(() => {
-        if (!currentUser) navigate("/Kambaz/Account/Signin");
-    }, [currentUser, navigate]);
+    // useEffect(() => {
+    //     if (!currentUser) navigate("/Kambaz/Account/Signin");
+    // }, [currentUser, navigate]);
+    if (!currentUser) {
+        useEffect(() => {
+            navigate("/Kambaz/Account/Signin");
+        }, [navigate]);
+        return null;
+    }
+
 
     const updateProfile = async () => {
         const updatedProfile = await client.updateUser(profile);

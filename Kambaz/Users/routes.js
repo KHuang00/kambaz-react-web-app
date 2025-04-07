@@ -149,19 +149,28 @@ export default function UserRoutes(app) {
         }
     };
 
+    // const findCoursesForEnrolledUser = (req, res) => {
+    //     let { userId } = req.params;
+    //     if (userId === "current") {
+    //         const currentUser = req.session["currentUser"];
+    //         if (!currentUser) {
+    //             res.sendStatus(401);
+    //             return;
+    //         }
+    //         userId = currentUser._id;
+    //     }
+    //     const courses = courseDao.findCoursesForEnrolledUser(userId);
+    //     res.json(courses);
+    // };
+
     const findCoursesForEnrolledUser = (req, res) => {
-        let { userId } = req.params;
-        if (userId === "current") {
-            const currentUser = req.session["currentUser"];
-            if (!currentUser) {
-                res.sendStatus(401);
-                return;
-            }
-            userId = currentUser._id;
+        if (!req.session || !req.session.currentUser) {
+            return res.status(401).json({ error: "Not authenticated" });
         }
-        const courses = courseDao.findCoursesForEnrolledUser(userId);
+        const courses = courseDao.findCoursesForEnrolledUser(req.session.currentUser._id);
         res.json(courses);
     };
+
     const createCourse = (req, res) => {
         const currentUser = req.session["currentUser"];
         const newCourse = courseDao.createCourse(req.body);
