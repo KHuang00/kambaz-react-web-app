@@ -95,14 +95,20 @@ export default function Kambaz() {
     const { currentUser } = useSelector((state: any) => state.account);
     const fetchCourses = async () => {
         try {
-            const courses = await userClient.findMyCourses();
+            const courses = await courseClient.fetchAllCourses();
             setCourses(courses);
         } catch (error) {
             console.error(error);
         }
     };
+    // useEffect(() => {
+    //     fetchCourses();
+    // }, [currentUser]);
+
     useEffect(() => {
-        fetchCourses();
+        if (currentUser) {
+            fetchCourses();
+        }
     }, [currentUser]);
 
 
@@ -165,7 +171,9 @@ export default function Kambaz() {
                     {/* @ts-ignore */}
                     <Route path="/Courses/:courseId/*" element={
                         <ProtectedRoute>
-                            <Courses courses={courses} />
+                            {/*<Courses courses={courses} />*/}
+                            {/* @ts-ignore */}
+                            <Courses courses={useSelector((state) => state.courses.courses)} />
                         </ProtectedRoute>
                     } />
                     {/* @ts-ignore */}

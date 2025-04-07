@@ -230,7 +230,7 @@ import { useEffect, useState } from "react";
 import { FaChevronDown, FaChevronUp, FaAlignJustify } from "react-icons/fa";
 import { Navigate, Route, Routes, useParams, useLocation } from "react-router";
 import { useSelector } from "react-redux";
-import { enrollments } from "../Database/index.tsx";
+// import { enrollments } from "../Database/index.tsx";
 import CoursesNavigation from "./Navigations";
 import Modules from "./Modules";
 import Home from "./Home";
@@ -251,23 +251,36 @@ export default function Courses({ courses }) {
     const currentUser = useSelector((state) => state.account?.currentUser);
     console.log("Current User:", currentUser);
 
+    // useEffect(() => {
+    //     if (currentUser) {
+    //         console.log("Checking enrollments for user:", currentUser._id);
+    //         // @ts-ignore
+    //         const userEnrollments = enrollments.filter(e => String(e.user) === String(currentUser._id));
+    //         console.log("User Enrollments:", userEnrollments);
+    //
+    //         // @ts-ignore
+    //         const filteredCourses = courses.filter(course =>
+    //             userEnrollments.some(enrollment => String(enrollment.course) === String(course._id))
+    //         );
+    //
+    //         console.log("Filtered Courses:", filteredCourses);
+    //         // @ts-ignore
+    //         setUserCourses(filteredCourses);
+    //     }
+    // }, [currentUser, courses]);
+
+    // @ts-ignore
+    const reduxEnrollments = useSelector((state) => state.enrollments.enrollments);
+
     useEffect(() => {
-        if (currentUser) {
-            console.log("Checking enrollments for user:", currentUser._id);
-            // @ts-ignore
-            const userEnrollments = enrollments.filter(e => String(e.user) === String(currentUser._id));
-            console.log("User Enrollments:", userEnrollments);
-
-            // @ts-ignore
-            const filteredCourses = courses.filter(course =>
-                userEnrollments.some(enrollment => String(enrollment.course) === String(course._id))
+        if (currentUser && courses.length > 0 && reduxEnrollments.length > 0) {
+            const filteredCourses = courses.filter((course: { _id: any; }) =>
+                reduxEnrollments.includes(course._id)
             );
-
-            console.log("Filtered Courses:", filteredCourses);
-            // @ts-ignore
             setUserCourses(filteredCourses);
         }
-    }, [currentUser, courses]);
+    }, [currentUser, courses, reduxEnrollments]);
+
 
     useEffect(() => {
         const pathParts = pathname.split("/");

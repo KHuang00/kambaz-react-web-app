@@ -418,6 +418,7 @@ export default function Dashboard() {
             await enrollmentsClient.enrollUser(userId, courseId);
             dispatch(enroll(courseId));
             alert("Enrolled successfully!");
+        console.log("Enrolled successfully for course to user:", courseId, userId);
             const updatedCourses = await coursesClient.fetchAllCourses();
             dispatch(setCourses(updatedCourses));
         } catch (error) {
