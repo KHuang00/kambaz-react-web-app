@@ -218,6 +218,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { Container, Form, Card, Row, Col } from "react-bootstrap";
 import { addAssignment, updateAssignment } from "./reducer";
+import * as assignmentsClient from "./client";
 
 export default function AssignmentEditor() {
     const { courseId, assignmentId } = useParams();
@@ -230,6 +231,22 @@ export default function AssignmentEditor() {
     // @ts-ignore
     // const assignment = assignments.find((a) => String(a._id) === String(assignmentId));
     const assignment = isNew ? null : assignments.find((a) => String(a._id) === String(assignmentId));
+
+    // @ts-ignore
+    useEffect(() => {
+        if (!isNew && !assignment && courseId && assignmentId) {
+            // Fetch the assignment from the backend by ID
+            assignmentsClient
+                .fetchAssignmentById(courseId, assignmentId)
+                .then((fetched) => {
+                    dispatch(addAssignment(fetched)); // Add to Redux
+                })
+                .catch((err) => {
+                    console.error("Assignment not found:", err);
+                });
+        }
+    }, [assignment, isNew, courseId, assignmentId, dispatch]);
+
 
     const [formData, setFormData] = useState({
         title: "",

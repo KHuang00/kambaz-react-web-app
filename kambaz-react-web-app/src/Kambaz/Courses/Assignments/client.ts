@@ -30,3 +30,10 @@ export const deleteAssignment = async (courseId : string,assignmentId:string) =>
     const response = await axiosWithCredentials.delete(`${COURSES_API}/${courseId}/Assignments/${assignmentId}`);
     return response.data;
 };
+
+export const fetchAssignmentById = async (courseId: string, assignmentId: string) => {
+    const response = await axiosWithCredentials.get(
+        `${COURSES_API}/${courseId}/Assignments/${assignmentId}`
+    );
+    return response.data;
+};

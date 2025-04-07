@@ -395,16 +395,21 @@ export default function Assignments() {
 
 
     // Handle Add Assignment
-    const handleAddAssignment = () => {
+    const handleAddAssignment = async () => {
         const newAssignment = {
             _id: `${Date.now()}`,
             course: courseId,
             title: "New Assignment",
             description: "Enter details here...",
-            detail: { module: "Module X", start: "TBA", due: "TBA", points: "0 pts" },
+            detail: {module: "Module X", start: "TBA", due: "TBA", points: "0 pts"},
+            availableUntil: "TBA"
         };
-        dispatch(addAssignment(newAssignment));
-        navigate(`/Kambaz/Courses/${courseId}/Assignments/${newAssignment._id}`);
+
+        const created = await assignmentsClient.createAssignment(courseId as string, newAssignment);
+        dispatch(addAssignment(created));
+        navigate(`/Kambaz/Courses/${courseId}/Assignments/${created._id}`);
+        // dispatch(addAssignment(newAssignment));
+        // navigate(`/Kambaz/Courses/${courseId}/Assignments/${newAssignment._id}`);
     };
     console.log("Redux Assignments:", assignments);
     console.log("Course ID from URL:", courseId);
