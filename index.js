@@ -20,7 +20,13 @@ import EnrollmentsRoutes from "./Kambaz/Enrollments/routes.js";
 import CourseRoutes from "./Kambaz/Courses/routes.js";
 import ModuleRoutes from "./Kambaz/Modules/routes.js";
 import AssignmentsRoutes from "./Kambaz/Assignment/routes.js";
+import mongoose from "mongoose";
+// const CONNECTION_STRING = "mongodb://127.0.0.1:27017/kambaz"
+const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kambaz"
+mongoose.connect(CONNECTION_STRING);
 
+
+mongoose.connect(CONNECTION_STRING);
 //server side
 const app = express()
 // http://localhost:4000/hello responds "Life is good"

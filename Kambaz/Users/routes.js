@@ -60,6 +60,19 @@ export default function UserRoutes(app) {
     // Find all users
     const findAllUsers = async (req, res) => {
         try {
+            const { role, name } = req.query;
+            if (role) {
+                const users = await dao.findUsersByRole(role);
+                res.json(users);
+                return;
+            }
+            if (name) {
+                const users = await dao.findUsersByPartialName(name);
+                res.json(users);
+                return;
+            }
+
+
             const users = await dao.findAllUsers();
             res.json(users);
         } catch (error) {
@@ -106,7 +119,7 @@ export default function UserRoutes(app) {
                 res.status(400).json({ message: "Username already in use" });
                 return;
             }
-            const currentUser = dao.createUser(req.body);
+            const currentUser = await dao.createUser(req.body);
             req.session["currentUser"] = currentUser;
             res.json(currentUser);
 
@@ -121,7 +134,7 @@ export default function UserRoutes(app) {
     const signin = async (req, res) => {
         try {
             const { username, password } = req.body;
-            const currentUser = dao.findUserByCredentials(username, password);
+            const currentUser = await dao.findUserByCredentials(username, password);
             if (currentUser) {
                 req.session["currentUser"] = currentUser;
                 res.json(currentUser);

@@ -43,6 +43,16 @@ export default function AccountNavigation() {
                     {name}
                 </Link>
             ))}
+
+            {currentUser?.role === "ADMIN" && (
+                <Link
+                    to="/Kambaz/Account/Users"
+                    className={pathname.includes("Users") ? "active-link" : ""}
+                >
+                    Users
+                </Link>
+            )}
+
         </div>
     );
 }

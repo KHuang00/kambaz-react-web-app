@@ -229,23 +229,36 @@
 import { useEffect, useState } from "react";
 import { FaChevronDown, FaChevronUp, FaAlignJustify } from "react-icons/fa";
 import { Navigate, Route, Routes, useParams, useLocation } from "react-router";
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 // import { enrollments } from "../Database/index.tsx";
 import CoursesNavigation from "./Navigations";
 import Modules from "./Modules";
 import Home from "./Home";
 import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
-import PeopleTable from "./people/Table.tsx";
 import "./index.css";
+import * as accountClient from '../Account/client.ts';
+import {setAllUsers} from "../Account/reducer.ts";
+import Users from "../Account/Users.tsx";
+
 
 // @ts-ignore
 export default function Courses({ courses }) {
     const { courseId } = useParams();
     const { pathname } = useLocation();
+    // const [showNav, setShowNav] = useState(false);
+    // const [section, setSection] = useState("Home");
+    // const [userCourses, setUserCourses] = useState([]);
+    const dispatch = useDispatch();
+
+
     const [showNav, setShowNav] = useState(false);
     const [section, setSection] = useState("Home");
     const [userCourses, setUserCourses] = useState([]);
+
+
+    // @ts-ignore
+    const reduxUsers = useSelector((state) => state.account?.users || []);
 
     // @ts-ignore
     const currentUser = useSelector((state) => state.account?.currentUser);
@@ -272,6 +285,17 @@ export default function Courses({ courses }) {
     // @ts-ignore
     const reduxEnrollments = useSelector((state) => state.enrollments.enrollments);
 
+    // Load all users if not already in Redux
+    useEffect(() => {
+        const loadUsers = async () => {
+            if (reduxUsers.length === 0) {
+                const users = await accountClient.findAllUsers();
+                dispatch(setAllUsers(users));
+            }
+        };
+        loadUsers();
+    }, [dispatch, reduxUsers.length]);
+
     useEffect(() => {
         if (currentUser && courses.length > 0 && reduxEnrollments.length > 0) {
             const filteredCourses = courses.filter((course: { _id: any; }) =>
@@ -291,6 +315,8 @@ export default function Courses({ courses }) {
     const course = userCourses.find((course) => String(course._id) === String(courseId));
 
     const links = ["Home", "Modules", "Piazza", "Zoom", "Assignments", "Quizzes", "Grades", "People"];
+
+
 
     return (
         <div id="wd-courses" className="container-fluid">
@@ -353,7 +379,8 @@ export default function Courses({ courses }) {
                             <Route path="Projects" element={<h2>Projects</h2>} />
                             <Route path="Projects/:pid" element={<AssignmentEditor />} />
                             <Route path="Grades" element={<h2>Grades</h2>} />
-                            <Route path="People" element={<PeopleTable />} />
+                            {/*<Route path="People" element={<PeopleTable users={reduxUsers} enrollments={reduxEnrollments} cid={courseId || ""}/>} />*/}
+                            <Route path="People" element={<Users />} />
                         </Routes>
                     ) : (
                         <p className="text-danger">You are not enrolled in this course.</p>

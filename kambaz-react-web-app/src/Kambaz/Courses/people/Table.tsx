@@ -1,15 +1,37 @@
-import { Table } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { FaUserCircle } from "react-icons/fa";
-import { useParams } from "react-router-dom";
-import {users, enrollments} from  "../../Database";
+import { Table } from "react-bootstrap";
 
-export default function PeopleTable() {
+export default function PeopleTable({
+                                        users = [],
+                                        enrollments = [],
+                                        cid
+                                    }: {
+    users?: any[];
+    enrollments?: any[];
+    cid: string;
+}) {
+    // Get currentUser from Redux store
+    const currentUser = useSelector((state: any) => state.account?.currentUser);
+    const isAdmin = currentUser?.role === "ADMIN";
 
-    const { courseId } = useParams();
-    // @ts-ignore
+    // Determine which users to show
+    const enrolledUsers = isAdmin
+        ? users
+        : users.filter((usr) =>
+            enrollments.some(
+                (enrollment) =>
+                    enrollment.user === usr._id && enrollment.course === cid
+            )
+        );
+
+
     return (
         <div id="wd-people-table">
-            {/* @ts-ignore */}
+            {isAdmin && (
+                <div className="mb-2 text-muted">Viewing as Administrator (All Users)</div>
+            )}
+            {/*@ts-ignore*/}
             <Table striped>
                 <thead>
                 <tr>
@@ -21,92 +43,28 @@ export default function PeopleTable() {
                     <th>Total Activity</th>
                 </tr>
                 </thead>
-                {/*<tbody>*/}
-                {/*<tr>*/}
-                {/*    <td className="wd-full-name text-nowrap">*/}
-                {/*        <FaUserCircle className="me-2 fs-1 text-secondary" />*/}
-                {/*        <span className="wd-first-name">Tony</span>{" "}*/}
-                {/*        <span className="wd-last-name">Stark</span>*/}
-                {/*    </td>*/}
-                {/*    <td className="wd-login-id">001234561S</td>*/}
-                {/*    <td className="wd-section">S101</td>*/}
-                {/*    <td className="wd-role">STUDENT</td>*/}
-                {/*    <td className="wd-last-activity">2020-10-01</td>*/}
-                {/*    <td className="wd-total-activity">10:21:32</td>*/}
-                {/*</tr>*/}
-                {/*<tr>*/}
-                {/*    <td className="wd-full-name text-nowrap">*/}
-                {/*        <FaUserCircle className="me-2 fs-1 text-secondary" />*/}
-                {/*        <span className="wd-first-name">Lily</span>{" "}*/}
-                {/*        <span className="wd-last-name">Wayne</span>*/}
-                {/*    </td>*/}
-                {/*    <td className="wd-login-id">001234562L</td>*/}
-                {/*    <td className="wd-section">S102</td>*/}
-                {/*    <td className="wd-role">STUDENT</td>*/}
-                {/*    <td className="wd-last-activity">2020-10-02</td>*/}
-                {/*    <td className="wd-total-activity">12:45:10</td>*/}
-                {/*</tr>*/}
-                {/*<tr>*/}
-                {/*    <td className="wd-full-name text-nowrap">*/}
-                {/*        <FaUserCircle className="me-2 fs-1 text-secondary" />*/}
-                {/*        <span className="wd-first-name">Bruce</span>{" "}*/}
-                {/*        <span className="wd-last-name">Wayne</span>*/}
-                {/*    </td>*/}
-                {/*    <td className="wd-login-id">001234563B</td>*/}
-                {/*    <td className="wd-section">S103</td>*/}
-                {/*    <td className="wd-role">INSTRUCTOR</td>*/}
-                {/*    <td className="wd-last-activity">2020-10-03</td>*/}
-                {/*    <td className="wd-total-activity">15:30:00</td>*/}
-                {/*</tr>*/}
-                {/*<tr>*/}
-                {/*    <td className="wd-full-name text-nowrap">*/}
-                {/*        <FaUserCircle className="me-2 fs-1 text-secondary" />*/}
-                {/*        <span className="wd-first-name">Gongxifacai</span>{" "}*/}
-                {/*        <span className="wd-last-name"></span>*/}
-                {/*    </td>*/}
-                {/*    <td className="wd-login-id">001234564G</td>*/}
-                {/*    <td className="wd-section">S104</td>*/}
-                {/*    <td className="wd-role">STUDENT</td>*/}
-                {/*    <td className="wd-last-activity">2020-10-04</td>*/}
-                {/*    <td className="wd-total-activity">08:15:20</td>*/}
-                {/*</tr>*/}
-                {/*<tr>*/}
-                {/*    <td className="wd-full-name text-nowrap">*/}
-                {/*        <FaUserCircle className="me-2 fs-1 text-secondary" />*/}
-                {/*        <span className="wd-first-name">Hongbaonalai</span>{" "}*/}
-                {/*        <span className="wd-last-name"></span>*/}
-                {/*    </td>*/}
-                {/*    <td className="wd-login-id">001234565H</td>*/}
-                {/*    <td className="wd-section">S105</td>*/}
-                {/*    <td className="wd-role">STUDENT</td>*/}
-                {/*    <td className="wd-last-activity">2020-10-05</td>*/}
-                {/*    <td className="wd-total-activity">09:50:45</td>*/}
-                {/*</tr>*/}
-                {/*</tbody>*/}
                 <tbody>
-                {users && enrollments
-                    ? users
-                        .filter((usr) =>
-                            enrollments.some((enrollment) => enrollment.user === usr._id && enrollment.course === courseId)
-                        )
-                        .map((user: any) => (
-                            <tr key={user._id}>
-                                <td className="wd-full-name text-nowrap">
-                                    <FaUserCircle className="me-2 fs-1 text-secondary" />
-                                    <span className="wd-first-name">{user.firstName}</span>
-                                    <span className="wd-last-name">{user.lastName}</span>
-                                </td>
-                                <td className="wd-login-id">{user.loginId}</td>
-                                <td className="wd-section">{user.section}</td>
-                                <td className="wd-role">{user.role}</td>
-                                <td className="wd-last-activity">{user.lastActivity}</td>
-                                <td className="wd-total-activity">{user.totalActivity}</td>
-                            </tr>
-                        ))
-                    : "No data found"}
+                {enrolledUsers.length > 0 ? (
+                    enrolledUsers.map((user: any) => (
+                        <tr key={user._id}>
+                            <td className="wd-full-name text-nowrap">
+                                <FaUserCircle className="me-2 fs-1 text-secondary" />
+                                <span className="wd-first-name">{user.firstName}</span>
+                                <span className="wd-last-name">{user.lastName}</span>
+                            </td>
+                            <td className="wd-login-id">{user.loginId}</td>
+                            <td className="wd-section">{user.section}</td>
+                            <td className="wd-role">{user.role}</td>
+                            <td className="wd-last-activity">{user.lastActivity}</td>
+                            <td className="wd-total-activity">{user.totalActivity}</td>
+                        </tr>
+                    ))
+                ) : (
+                    <tr>
+                        <td colSpan={6} className="text-center text-muted">No data found</td>
+                    </tr>
+                )}
                 </tbody>
-
-
             </Table>
         </div>
     );
