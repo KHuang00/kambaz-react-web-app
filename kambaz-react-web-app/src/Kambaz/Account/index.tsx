@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 import Users from "./Users.tsx";
+import PeopleDetails from "../Courses/people/Details.tsx";
 
 export default function Account() {
     const { currentUser } = useSelector((state: any) => state.account);
@@ -32,7 +33,8 @@ export default function Account() {
                             <Route path="/Signin"  element={<Signin />} />
                             <Route path="/Profile" element={<Profile />} />
                             <Route path="/Signup"  element={<Signup />} />
-                            <Route path="/Users" element={<Users />} />
+                            <Route path="/Users/*" element={<Users />} />
+                            <Route path="/Users/:uid" element={<PeopleDetails />} />
 
 
                         </Routes>

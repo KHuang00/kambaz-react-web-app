@@ -240,6 +240,7 @@ import "./index.css";
 import * as accountClient from '../Account/client.ts';
 import {setAllUsers} from "../Account/reducer.ts";
 import Users from "../Account/Users.tsx";
+import PeopleDetails from "./people/Details.tsx";
 
 
 // @ts-ignore
@@ -380,7 +381,10 @@ export default function Courses({ courses }) {
                             <Route path="Projects/:pid" element={<AssignmentEditor />} />
                             <Route path="Grades" element={<h2>Grades</h2>} />
                             {/*<Route path="People" element={<PeopleTable users={reduxUsers} enrollments={reduxEnrollments} cid={courseId || ""}/>} />*/}
-                            <Route path="People" element={<Users />} />
+                            {/*<Route path="People" element={<Users />} />*/}
+                            <Route path="/People/*" element={<Users />} />
+                            <Route path="/People/:uid" element={<PeopleDetails />} />
+
                         </Routes>
                     ) : (
                         <p className="text-danger">You are not enrolled in this course.</p>

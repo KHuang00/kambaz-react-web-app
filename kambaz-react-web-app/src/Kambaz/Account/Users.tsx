@@ -1,15 +1,19 @@
 import {useEffect} from "react";
 import PeopleTable from "../Courses/people/Table";
 import {useDispatch, useSelector} from "react-redux";
-import {findAllUsers, findUsersByPartialName, findUsersByRole} from "./client";
-import {setAllUsers} from "./reducer.ts";
+import {findAllUsers, findUsersByPartialName, findUsersByRole, createUser} from "./client";
+import {addUser, setAllUsers} from "./reducer.ts";
 import {FormControl} from "react-bootstrap";
 import { Form } from "react-bootstrap";
+import {useParams} from "react-router";
+import PeopleDetails from "../Courses/people/Details.tsx";
+import {FaPlus} from "react-icons/fa";
 export default function Users() {
 
     const users = useSelector((state: any) => state.account?.users || []);
-
+    const { uid } = useParams();
     const dispatch = useDispatch();
+
 
     // const filterUsersByRole = async (selectedRole: string) => {
     //     const users =
@@ -71,11 +75,30 @@ export default function Users() {
         }
     };
 
+    const createNewUser = async () => {
+        const user = await createUser({
+            firstName: "New",
+            lastName: `User${users.length + 1}`,
+            username: `newuser${Date.now()}`,
+            password: "password123",
+            email: `email${users.length + 1}@neu.edu`,
+            section: "S101",
+            role: "STUDENT",
+        });
+        dispatch(addUser(user));
+    };
+
+
 
     return (
 
         <div className=" mb-3">
             <h3 className="mb-0">Users</h3>
+
+            <button onClick={createNewUser} className="float-end btn btn-danger wd-add-people">
+                <FaPlus className="me-2" />
+                Users
+            </button>
 
             {/*@ts-ignore*/}
             <Form style={{ maxWidth: "400px", flexGrow: 1, marginLeft: "2rem" }}>
@@ -96,6 +119,10 @@ export default function Users() {
                 </Form.Select>
             </Form>
 
+
+
+                <br/>
+
             {/*{users.length === 0 && (*/}
             {/*    <div className="text-muted mt-3">No users found.</div>*/}
             {/*)}*/}
@@ -105,6 +132,9 @@ export default function Users() {
                 <div className="text-muted mt-3">No users found.</div>
             ) : (
                 <PeopleTable users={users} cid={""} />
+
             )}
+
+            {uid && <PeopleDetails />}
         </div>
     );}

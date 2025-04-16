@@ -41,8 +41,10 @@ export const findUsersByPartialName = (partialName) => {
 // export const updateUser = (userId, user) => (users = users.map((u) => (u._id === userId ? user : u)));
 // export const deleteUser = (userId) => (users = users.filter((u) => u._id !== userId));
 
+
 export const updateUser = (userId, user) =>
     model.updateOne({ _id: userId }, { $set: user });
 
 export const deleteUser = (userId) =>
     model.deleteOne({ _id: userId });
+
