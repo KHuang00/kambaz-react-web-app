@@ -44,7 +44,7 @@ import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
     // modules: modules,
-    modules: [],
+    modules: [] as any,
 };
 
 const modulesSlice = createSlice({
@@ -76,16 +76,17 @@ const modulesSlice = createSlice({
                 state.modules[index] = module;
             }
         },
+
         editModule: (state, { payload: moduleId }) => {
-            // @ts-ignore
-            const module = state.modules.find(m => m._id === moduleId);
-            if (module) {
-                // @ts-ignore
-                module.editing = true;
-            }
-        },
+            //@ts-ignore
+            state.modules = state.modules.map((m) =>
+                m._id === moduleId ? { ...m, editing: true } : { ...m, editing: false }
+            );
+        }
+
+
     },
 });
 
-export const { addModule, deleteModule, updateModule, editModule, setModules } = modulesSlice.actions;
+export const { addModule, deleteModule, updateModule,setModules, editModule } = modulesSlice.actions;
 export default modulesSlice.reducer;

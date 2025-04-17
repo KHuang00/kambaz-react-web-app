@@ -29,6 +29,8 @@ import * as dao from "./dao.js";
 import * as courseDao from "../Courses/dao.js";
 import express from 'express';
 import * as enrollmentsDao from "../Enrollments/dao.js";
+import {findEnrollmentsForUser} from "../Enrollments/dao.js";
+import {findCoursesForEnrolledUser} from "../Courses/dao.js";
 
 // let currentUser = null;
 const app = express();
@@ -182,13 +184,13 @@ export default function UserRoutes(app) {
     //     res.json(courses);
     // };
 
-    const findCoursesForEnrolledUser = (req, res) => {
-        if (!req.session || !req.session.currentUser) {
-            return res.status(401).json({ error: "Not authenticated" });
-        }
-        const courses = courseDao.findCoursesForEnrolledUser(req.session.currentUser._id);
-        res.json(courses);
-    };
+    // const findCoursesForEnrolledUser = (req, res) => {
+    //     if (!req.session || !req.session.currentUser) {
+    //         return res.status(401).json({ error: "Not authenticated" });
+    //     }
+    //     const courses = courseDao.findCoursesForEnrolledUser(req.session.currentUser._id);
+    //     res.json(courses);
+    // };
 
     const createCourse = (req, res) => {
         const currentUser = req.session["currentUser"];
@@ -196,6 +198,26 @@ export default function UserRoutes(app) {
         enrollmentsDao.enrollUserInCourse(currentUser._id, newCourse._id);
         res.json(newCourse);
     };
+
+    const findCoursesForUser = async (req, res) => {
+        const currentUser = req.session["currentUser"];
+        if (!currentUser) {
+            res.sendStatus(401);
+            return;
+        }
+        if (currentUser.role === "ADMIN") {
+            const courses = await courseDao.findAllCourses();
+            res.json(courses);
+            return;
+        }
+        let { uid } = req.params;
+        if (uid === "current") {
+            uid = currentUser._id;
+        }
+        const courses = await enrollmentsDao.findEnrollmentsForUser(uid);
+        res.json(courses);
+    };
+
 
 
 
@@ -209,6 +231,6 @@ export default function UserRoutes(app) {
     app.post("/api/users/signin", signin);
     app.post("/api/users/signout", signout);
     app.get("/api/users/profile", profile);
-    app.get("/api/users/:userId/courses", findCoursesForEnrolledUser);
+    app.get("/api/users/:userId/courses", findCoursesForUser);
     app.post("/api/users/current/courses", createCourse);
 };

@@ -11,6 +11,8 @@ import {FaPlus} from "react-icons/fa";
 export default function Users() {
 
     const users = useSelector((state: any) => state.account?.users || []);
+    const currentUser = useSelector((state: any) => state.account?.currentUser);
+    const isAdmin = currentUser?.role === "ADMIN";
     const { uid } = useParams();
     const dispatch = useDispatch();
 
@@ -90,38 +92,69 @@ export default function Users() {
 
 
 
+
     return (
 
         <div className=" mb-3">
             <h3 className="mb-0">Users</h3>
 
-            <button onClick={createNewUser} className="float-end btn btn-danger wd-add-people">
-                <FaPlus className="me-2" />
-                Users
-            </button>
+            {/*<button onClick={createNewUser} className="float-end btn btn-danger wd-add-people">*/}
+            {/*    <FaPlus className="me-2" />*/}
+            {/*    Users*/}
+            {/*</button>*/}
 
-            {/*@ts-ignore*/}
-            <Form style={{ maxWidth: "400px", flexGrow: 1, marginLeft: "2rem" }}>
-                {/*@ts-ignore*/}
-                <FormControl
-                    placeholder="Search people"
-                    className="mb-3 "
-                    onKeyDown={handleSearch}
-                />
+            {/*/!*@ts-ignore*!/*/}
+            {/*<Form style={{ maxWidth: "400px", flexGrow: 1, marginLeft: "2rem" }}>*/}
+            {/*    /!*@ts-ignore*!/*/}
+            {/*    <FormControl*/}
+            {/*        placeholder="Search people"*/}
+            {/*        className="mb-3 "*/}
+            {/*        onKeyDown={handleSearch}*/}
+            {/*    />*/}
 
-                {/*@ts-ignore*/}
-                <Form.Select onChange={handleRoleChange}  className="mb-3" >
-                    <option value="">All Roles</option>
-                    <option value="STUDENT">Students</option>
-                    <option value="TA">Assistants</option>
-                    <option value="FACULTY">Faculty</option>
-                    <option value="ADMIN">Administrators</option>
-                </Form.Select>
-            </Form>
+            {/*    /!*@ts-ignore*!/*/}
+            {/*    <Form.Select onChange={handleRoleChange}  className="mb-3" >*/}
+            {/*        <option value="">All Roles</option>*/}
+            {/*        <option value="STUDENT">Students</option>*/}
+            {/*        <option value="TA">Assistants</option>*/}
+            {/*        <option value="FACULTY">Faculty</option>*/}
+            {/*        <option value="ADMIN">Administrators</option>*/}
+            {/*    </Form.Select>*/}
+            {/*</Form>*/}
+
+            {isAdmin && (
+                <>
+                    <button
+                        onClick={createNewUser}
+                        className="float-end btn btn-danger wd-add-people"
+                    >
+                        <FaPlus className="me-2" />
+                        Add User
+                    </button>
+                    {/*@ts-ignore*/}
+                    <Form style={{ maxWidth: "400px", flexGrow: 1, marginLeft: "2rem" }}>
+                        {/*@ts-ignore*/}
+                        <FormControl
+                            placeholder="Search people"
+                            className="mb-3"
+                            onKeyDown={handleSearch}
+                        />
+                        {/*@ts-ignore*/}
+                        <Form.Select onChange={handleRoleChange} className="mb-3">
+                            <option value="">All Roles</option>
+                            <option value="STUDENT">Students</option>
+                            <option value="TA">Assistants</option>
+                            <option value="FACULTY">Faculty</option>
+                            <option value="ADMIN">Administrators</option>
+                        </Form.Select>
+                    </Form>
+                </>
+            )}
 
 
 
-                <br/>
+
+            <br/>
 
             {/*{users.length === 0 && (*/}
             {/*    <div className="text-muted mt-3">No users found.</div>*/}

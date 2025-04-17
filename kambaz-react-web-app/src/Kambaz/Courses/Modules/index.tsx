@@ -303,7 +303,7 @@ import ModulesControls from "./ModulesControls";
 import LessonControlButtons from "./LessonControlButtons";
 import ModuleControlButtons from "./ModuleControlButtons";
 import * as coursesClient from "../client";
-import { setModules, addModule, editModule, updateModule, deleteModule } from "./reducer";
+import {setModules, addModule, updateModule, deleteModule, editModule} from "./reducer";
 import "./index.css";
 import {useState, useEffect} from "react";
 import * as modulesClient from "./client";
@@ -369,11 +369,16 @@ export default function Modules() {
     const removeModule = async (moduleId: string) => {
         await modulesClient.deleteModule(moduleId);
         dispatch(deleteModule(moduleId));
+        const updatedModules = await coursesClient.findModulesForCourse(courseId as string);
+        dispatch(setModules(updatedModules));
     };
 
     const saveModule = async (module: any) => {
         await modulesClient.updateModule(module);
         dispatch(updateModule(module));
+        // const { editing, ...cleaned } = module;
+        // await modulesClient.updateModule(cleaned);
+        // dispatch(updateModule(cleaned));
     };
 
 
@@ -418,6 +423,7 @@ export default function Modules() {
                                         className="w-50 d-inline-block"
                                         autoFocus
                                         defaultValue={module.name}
+                                        // onChange={(e) => dispatch(updateModule({ ...module, name: e.target.value }))}
                                         onChange={(e) => dispatch(updateModule({ ...module, name: e.target.value }))}
                                         onKeyDown={(e) => {
                                             if (e.key === "Enter") {
@@ -431,8 +437,10 @@ export default function Modules() {
                                 )}
                                 <ModuleControlButtons
                                     moduleId={module._id}
-                                    deleteModule={() => dispatch(deleteModule(module._id))}
+                                    // deleteModule={() => dispatch(deleteModule(module._id))}
+                                    deleteModule={() => removeModule(module._id)}
                                     editModule={() => dispatch(editModule(module._id))}
+
                                 />
                             </div>
                             {module.lessons && (

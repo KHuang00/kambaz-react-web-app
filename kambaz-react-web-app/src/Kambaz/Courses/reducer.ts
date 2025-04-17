@@ -34,6 +34,7 @@ const courseSlice = createSlice({
         setCourses: (state, { payload }) => {
             state.courses = payload;
         },
+
     },
 });
 
