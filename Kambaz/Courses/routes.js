@@ -1,5 +1,6 @@
 import * as dao from "./dao.js";
 import * as modulesDao from "../Modules/dao.js";
+import * as enrollmentsDao from "../Enrollments/dao.js";
 
 // export default function CourseRoutes(app) {
 //     app.get("/api/courses", (req, res) => {
@@ -49,8 +50,25 @@ export default function CourseRoutes(app) {
 
     app.post("/api/courses", async (req, res) => {
         const newCourse = await dao.createCourse(req.body);
+        const currentUser = req.session["currentUser"];
+
+        console.log("New Course Created:", newCourse);
+        console.log("Current User:", currentUser);
+
+        try {
+            if (currentUser && currentUser._id) {
+                const enroll = await enrollmentsDao.enrollUserInCourse(currentUser._id, newCourse._id);
+                console.log("Enrolled:", enroll);
+            } else {
+                console.warn(" No currentUser in session");
+            }
+        } catch (err) {
+            console.error(" Enrollment failed:", err);
+        }
+
         res.status(201).json(newCourse);
     });
+
 
     app.put("/api/courses/:courseId", async (req, res) => {
         const {courseId} = req.params;
@@ -80,4 +98,11 @@ export default function CourseRoutes(app) {
         const modules =await modulesDao.findModulesForCourse(courseId);
         res.json(modules);
     });
+
+    const findUsersForCourse = async (req, res) => {
+        const { cid } = req.params;
+        const users = await enrollmentsDao.findUsersForCourse(cid);
+        res.json(users);
+    };
+    app.get("/api/courses/:cid/users", findUsersForCourse);
 }
