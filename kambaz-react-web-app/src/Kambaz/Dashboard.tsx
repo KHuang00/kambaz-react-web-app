@@ -357,6 +357,7 @@ export default function Dashboard() {
                     console.log("Enrollments response:", data);
                     const enrolledIds = [
                         ...new Set(data.map((e) => e._id))
+
                     ];
                     dispatch(setEnrollments(enrolledIds));
                 } else {
@@ -408,25 +409,61 @@ export default function Dashboard() {
     };
 
     { /* @ts-ignore */ }
-    const handleDeleteCourse = (id) => {
-        // setCourses(courses.filter(course => course._id !== id));
-        dispatch(deleteCourse(id));
-        handleUnenroll(id);
+    const handleDeleteCourse = async (courseId: string) => {
+        try {
+            if (enrolledCourseIds.includes(courseId)) {
+                await handleUnenroll(courseId);
+            }
+
+            await coursesClient.deleteCourse(courseId);
+
+            dispatch(deleteCourse(courseId));
+
+            alert("Course deleted successfully.");
+        } catch (error) {
+            console.error("Error deleting course:", error);
+            alert("Failed to delete course.");
+        }
     };
+
+
+    // const handleDeleteCourse = (id) => {
+    //     // setCourses(courses.filter(course => course._id !== id));
+    //     coursesClient.deleteCourse(id);
+    //     dispatch(deleteCourse(id));
+    //     handleUnenroll(id);
+    // };
 
     { /* @ts-ignore */ }
     const handleEditCourse = (course) => {
+
         setEditCourse(course);
     };
 
-    const handleSaveCourse = () => {
+    // const handleSaveCourse = () => {
+    //     if (editCourse) {
+    //         { /* @ts-ignore */ }
+    //         // setCourses(courses.map((c) => (c._id === editCourse._id ? editCourse : c)));
+    //         dispatch(updateCourse(editCourse));
+    //         setEditCourse(null);
+    //     }
+    // };
+    const handleSaveCourse = async () => {
         if (editCourse) {
-            { /* @ts-ignore */ }
-            // setCourses(courses.map((c) => (c._id === editCourse._id ? editCourse : c)));
-            dispatch(updateCourse(editCourse));
-            setEditCourse(null);
+            try {
+                await coursesClient.updateCourse(editCourse);
+
+
+                dispatch(updateCourse(editCourse));
+
+                setEditCourse(null);
+            } catch (error) {
+                console.error("Failed to update course:", error);
+                alert("Course update failed.");
+            }
         }
     };
+
 
     const handleEnroll = async (courseId: string) => {
         try {
