@@ -1,6 +1,129 @@
-[
-  { "_id": "1", "user": "123", "course": "RS101" },  { "_id": "2", "user": "234", "course": "RS101" },
-  { "_id": "3", "user": "345", "course": "RS101" },  { "_id": "4", "user": "456", "course": "RS101" },
-  { "_id": "5", "user": "567", "course": "RS101" },  { "_id": "6", "user": "234", "course": "RS102" },
-  { "_id": "7", "user": "789", "course": "RS102" },  { "_id": "8", "user": "890", "course": "RS102" },
-  { "_id": "9", "user": "123", "course": "RS102" } ]
+[{
+  "_id": "1",
+  "user": "123",
+  "course": "RS101"
+},
+{
+  "_id": "2",
+  "user": "234",
+  "course": "RS101"
+},
+{
+  "_id": "3",
+  "user": "345",
+  "course": "RS101"
+},
+{
+  "_id": "4",
+  "user": "456",
+  "course": "RS101"
+},
+{
+  "_id": "5",
+  "user": "567",
+  "course": "RS101"
+},
+{
+  "_id": "6",
+  "user": "234",
+  "course": "RS102"
+},
+{
+  "_id": "7",
+  "user": "789",
+  "course": "RS102"
+},
+{
+  "_id": "8",
+  "user": "890",
+  "course": "RS102"
+},
+{
+  "_id": "9",
+  "user": "456",
+  "course": "RS102"
+},
+{
+  "_id": "456-RS102",
+  "course": "RS102",
+  "user": "456",
+  "status": "ENROLLED",
+  "__v": 0
+},
+{
+  "_id": "123-c0b954a9-1346-41f3-8870-bd97ed84beb2",
+  "course": "c0b954a9-1346-41f3-8870-bd97ed84beb2",
+  "user": "123",
+  "status": "ENROLLED",
+  "__v": 0
+},
+{
+  "_id": "123-e919be0d-375c-4d5a-9fac-837c7afdb736",
+  "course": "e919be0d-375c-4d5a-9fac-837c7afdb736",
+  "user": "123",
+  "status": "ENROLLED",
+  "__v": 0
+},
+{
+  "_id": "123-bd36c87f-7b6e-41de-8181-1ed58d7f3921",
+  "course": "bd36c87f-7b6e-41de-8181-1ed58d7f3921",
+  "user": "123",
+  "status": "ENROLLED",
+  "__v": 0
+},
+{
+  "_id": "123-e636363c-5a05-4f75-949e-6a7230584447",
+  "course": "e636363c-5a05-4f75-949e-6a7230584447",
+  "user": "123",
+  "status": "ENROLLED",
+  "__v": 0
+},
+{
+  "_id": "123-772fe37a-aa63-4f17-9b5a-14990866abbd",
+  "course": "772fe37a-aa63-4f17-9b5a-14990866abbd",
+  "user": "123",
+  "status": "ENROLLED",
+  "__v": 0
+},
+{
+  "_id": "123-[object Object]",
+  "course": "[object Object]",
+  "user": "123",
+  "status": "ENROLLED",
+  "__v": 0
+},
+{
+  "_id": "123-25ff7b4d-4b52-4a3e-ab5c-ad82652ff0f3",
+  "course": "25ff7b4d-4b52-4a3e-ab5c-ad82652ff0f3",
+  "user": "123",
+  "status": "ENROLLED",
+  "__v": 0
+},
+{
+  "_id": "456-RS104",
+  "course": "RS104",
+  "user": "456",
+  "status": "ENROLLED",
+  "__v": 0
+},
+{
+  "_id": "777-RS103",
+  "course": "RS103",
+  "user": "777",
+  "status": "ENROLLED",
+  "__v": 0
+},
+{
+  "_id": "123-b7856d10-c34e-4eba-a4db-126e2a585d1e",
+  "course": "b7856d10-c34e-4eba-a4db-126e2a585d1e",
+  "user": "123",
+  "status": "ENROLLED",
+  "__v": 0
+},
+{
+  "_id": "123-4f95009c-b9a4-4e75-bb68-edce00a4b641",
+  "course": "4f95009c-b9a4-4e75-bb68-edce00a4b641",
+  "user": "123",
+  "status": "ENROLLED",
+  "__v": 0
+}]
