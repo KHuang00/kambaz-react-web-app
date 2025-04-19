@@ -354,19 +354,19 @@ export default function Dashboard() {
         enrollmentsClient.fetchUserEnrollments(userId)
             .then((data) => {
                 console.log("Raw enrollments response:", data);
-
-                if (Array.isArray(data)) {
-                    console.log("Enrollments response:", data);
-                    const enrolledIds = [
-                         ...new Set(data.map((e) => e._id))
-                    ];
-
-                    console.log("Enrolled course IDs:", enrolledIds);
-                    dispatch(setEnrollments(enrolledIds));
-                } else {
-                    console.error("Unexpected enrollments response:", data);
-                    dispatch(setEnrollments([]));
-                }
+                dispatch(setEnrollments(data));
+                // if (Array.isArray(data)) {
+                //     console.log("Enrollments response:", data);
+                //     const enrolledIds = [
+                //          ...new Set(data.map((e) => e._id))
+                //     ];
+                //
+                //     console.log("Enrolled course IDs:", enrolledIds);
+                //     dispatch(setEnrollments(enrolledIds));
+                // } else {
+                //     console.error("Unexpected enrollments response:", data);
+                //     dispatch(setEnrollments([]));
+                // }
             })
             .catch((err) => console.error("Error fetching enrollments:", err));
     }, [userId, dispatch]);
@@ -382,8 +382,7 @@ export default function Dashboard() {
 
     const visibleCourses = showAllCourses
         ? courses
-        : courses.filter((course: { _id: string; }) => enrolledCourseIds.includes(course._id));
-
+        : courses.filter((course: { _id: any; }) => enrolledCourseIds.includes(course._id));
     console.log("Enrolled course IDs:", enrolledCourseIds);
 
 
