@@ -353,12 +353,15 @@ export default function Dashboard() {
     useEffect(() => {
         enrollmentsClient.fetchUserEnrollments(userId)
             .then((data) => {
+                console.log("Raw enrollments response:", data);
+
                 if (Array.isArray(data)) {
                     console.log("Enrollments response:", data);
                     const enrolledIds = [
-                        ...new Set(data.map((e) => e._id))
-
+                         ...new Set(data.map((e) => e._id))
                     ];
+
+                    console.log("Enrolled course IDs:", enrolledIds);
                     dispatch(setEnrollments(enrolledIds));
                 } else {
                     console.error("Unexpected enrollments response:", data);
@@ -379,7 +382,10 @@ export default function Dashboard() {
 
     const visibleCourses = showAllCourses
         ? courses
-        : courses.filter((course: { _id: any; }) => enrolledCourseIds.includes(course._id));
+        : courses.filter((course: { _id: string; }) => enrolledCourseIds.includes(course._id));
+
+    console.log("Enrolled course IDs:", enrolledCourseIds);
+
 
 
     { /* @ts-ignore */ }
@@ -501,7 +507,7 @@ export default function Dashboard() {
 
             <div className="d-flex justify-content-between align-items-center mb-3">
                 <h2 id="wd-dashboard-published">
-                    {showAllCourses ? "All Courses" : "My Enrolled Courses"} ({visibleCourses.length})
+                    {showAllCourses ? "All Courses" : "My Enrolled Courses"} ({Array.isArray(visibleCourses) ? visibleCourses.length : 0})
                 </h2>
                 {/*@ts-ignore*/}
                 <Button variant="primary" onClick={() => setShowAllCourses(!showAllCourses)}>
