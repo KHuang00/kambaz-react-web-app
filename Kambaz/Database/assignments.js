@@ -1,5 +1,6 @@
 export default[
-  { "_id": "A101", "title": "Propulsion Assignment", "course": "RS101", "detail": {
+  { "_id": "A101", "title": "Propulsion Assignment", "course": "RS101",
+    "detail": {
     "module": "Module 4",
     "start": "02/10/2025 at 08:00 AM",
     "due": "04/20/2025 at 07:59 PM",

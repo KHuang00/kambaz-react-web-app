@@ -2,7 +2,7 @@ import {createSlice} from "@reduxjs/toolkit";
 
 
 const initialState = {
-    assignments: [],
+    assignments: [] as any,
     // assignments:dbAssignments,
 };
 
@@ -13,7 +13,13 @@ const assignmentsSlice = createSlice({
     reducers: {
 
         setAssignment: (state, action) => {
-            state.assignments = action.payload;
+            // state.assignments = action.payload;
+            if (Array.isArray(action.payload)) {
+                state.assignments = action.payload;
+            } else {
+                state.assignments = [];
+                console.warn("setAssignment: payload was not an array:", action.payload);
+            }
         },
 
 
@@ -21,15 +27,16 @@ const assignmentsSlice = createSlice({
 
             const newAssignment: any = {
                 // _id: new Date().getTime().toString(),
-                _id: assignment._id,
+                 _id: assignment._id,
                 title: assignment.title,
                 course: assignment.course,
                 description: assignment.description,
                 detail: {
-                    points: assignment.points,
+
                     module: assignment.module,
                     start: assignment.availableFrom,
-                    due: assignment.dueDate,
+                    due: assignment.due,
+                    points: assignment.points,
                 },
                 availableUntil: assignment.availableUntil,
             };
