@@ -1,9 +1,7 @@
 import { useSelector } from "react-redux";
 import { FaUserCircle } from "react-icons/fa";
 import { Table } from "react-bootstrap";
-// import PeopleDetails from "./Details";
 import {Link} from "react-router-dom";
-// import {useParams} from "react-router";
 
 export default function PeopleTable({
                                         users = [],
@@ -15,17 +13,10 @@ export default function PeopleTable({
     cid: string;
 }) {
 
-    // const location = useLocation();
-
-    // Get currentUser from Redux store
     const currentUser = useSelector((state: any) => state.account?.currentUser);
     const isAdmin = currentUser?.role === "ADMIN";
 
-    // const basePath = location.pathname.includes("Courses")
-    //     ? `/Kambaz/Courses/${cid}/People`
-    //     : `/Kambaz/Account/Users`;
 
-    // Determine which users to show
     const enrolledUsers = isAdmin
         ? users
         : users.filter((usr) =>
