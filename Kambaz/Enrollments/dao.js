@@ -45,13 +45,20 @@ export async function findUsersForCourse(courseId) {
 //find courses a user is enrolled in
 export async function findEnrollmentsForUser(userId) {
     // return Database.enrollments.filter((enrollment) => enrollment.user === userId);
-    const enrollments = await model.find({user: String(userId)}).populate("course");
+    //1-2
+    // const enrollments = await model.find({user: String(userId)}).populate("course");
+    //1
     // console.log("Enrollments found for user:", userId, enrollments);
     // return enrollments.map((enrollment) => enrollment.course);
-    const validCourses = enrollments
-        .filter(e => e && e.course)   // remove null course refs
-        .map(e => e.course._id);      // only return course IDs
-    console.log("Clean enrolled course IDs:", validCourses);
-    return validCourses;
+    //2
+    // const validCourses = enrollments
+    //     .filter(e => e && e.course)   // remove null course refs
+    //     .map(e => e.course._id);      // only return course IDs
+    // console.log("Clean enrolled course IDs:", validCourses);
+    // return validCourses;
 
+    // 3
+    const enrollments = await model.find({ user: String(userId) });
+    // Return course IDs only
+    return enrollments.map((e) => String(e.course));
 }
