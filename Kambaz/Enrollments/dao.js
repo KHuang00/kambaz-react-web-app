@@ -51,7 +51,7 @@ export async function findEnrollmentsForUser(userId) {
 
     const validCourses = enrollments
         .filter(e => e && e.course)   // remove null course refs
-        .map(e => e.course._id);      // only return course IDs
+        .map(e => typeof e.course === "string" ? e.course : e.course._id);      // only return course IDs
     console.log("Clean enrolled course IDs:", validCourses);
     return validCourses;
 
